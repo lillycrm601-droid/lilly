@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "django_ses",
+    "anymail",
     "drf_spectacular",
     "common",
     "accounts",
@@ -137,7 +138,8 @@ EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
 )
 
-# SMTP delivery (Brevo free tier: smtp-relay.brevo.com:587 + SMTP key).
+# SMTP delivery (fallback only — Render blocks outbound SMTP ports, so the
+# Brevo HTTP API via django-anymail is the primary backend in production).
 # Used automatically when EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend.
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
@@ -145,6 +147,13 @@ EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True").lower() == "true"
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 EMAIL_TIMEOUT = int(os.environ.get("EMAIL_TIMEOUT", "15"))
+
+# Transactional email via HTTP API (works on Render free tier).
+# Used automatically when EMAIL_BACKEND=anymail.backends.brevo.EmailBackend.
+# Get BREVO_API_KEY at Brevo → Settings → SMTP & API → API Keys (NOT the SMTP key).
+ANYMAIL = {
+    "BREVO_API_KEY": os.environ.get("BREVO_API_KEY", ""),
+}
 
 AUTH_USER_MODEL = "common.User"
 

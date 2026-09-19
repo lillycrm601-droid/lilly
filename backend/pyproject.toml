@@ -67,6 +67,7 @@ dependencies = [
     # Production WSGI server
     "gunicorn>=25.1.0",
     "uvicorn[standard]>=0.30",
+    "django-anymail>=15.2",
 ]
 
 [project.optional-dependencies]
