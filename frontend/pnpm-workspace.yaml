@@ -3,3 +3,5 @@ allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
   - '@sveltejs/kit@2.61.1'
+overrides:
+  svelte-eslint-parser>eslint-scope: ^9.1.0

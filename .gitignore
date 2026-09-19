@@ -69,6 +69,15 @@ logs/
 # Docker local overrides
 .env.docker.local
 
+# Local secrets / machine state (never commit)
+.env.local
+.env.*.local
+.neon/
+.neon-login.log
+.neon-login.pid
+node_modules/
+package-lock.json
+
 # OS
 .DS_Store
 Thumbs.db
@@ -79,3 +88,6 @@ CLAUDE.md
 TODO.md
 .playwright-mcp
 .superpowers/
+.neon
+.env.local
+node_modules/

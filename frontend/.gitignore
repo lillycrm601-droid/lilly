@@ -28,3 +28,5 @@ src/generated/*
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+.vercel
