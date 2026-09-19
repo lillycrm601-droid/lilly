@@ -1,4 +1,4 @@
-/// BottleCRM Theme System
+/// LillyCRM Theme System
 /// Barrel export for all theme-related files
 library;
 

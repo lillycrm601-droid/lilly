@@ -94,7 +94,7 @@
           <!-- Stage header -->
           <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-2">
-              <div class="size-2.5 rounded-full {stage.color} shadow-sm"></div>
+              <div class="size-2.5 rounded-full {stage.color} shadow-sm pulse-dot"></div>
               <span class="text-xs font-semibold tracking-tight text-[var(--text-primary)]">
                 {data.label || stage.id.replace('_', ' ')}
               </span>

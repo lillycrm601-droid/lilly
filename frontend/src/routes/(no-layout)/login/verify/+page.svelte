@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>Verify Sign-in | BottleCRM</title>
+  <title>Verify Sign-in | LillyCRM</title>
   <meta name="referrer" content="no-referrer" />
 </svelte:head>
 
@@ -14,7 +14,7 @@
   <div class="verify-wrapper">
     <a href="/" class="logo">
       <img src={imgLogo} alt="" class="logo-icon" />
-      <span class="logo-text">BottleCRM</span>
+      <span class="logo-text">LillyCRM</span>
     </a>
 
     <div class="verify-card">

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// BottleCRM Spacing & Layout System
+/// LillyCRM Spacing & Layout System
 /// Optimized for CRM-style dense, data-heavy interfaces
 /// Based on a 4px base unit system for consistent rhythm
 class AppSpacing {
@@ -100,7 +100,7 @@ class AppSpacing {
   );
 }
 
-/// BottleCRM Layout Constants - CRM Optimized
+/// LillyCRM Layout Constants - CRM Optimized
 class AppLayout {
   AppLayout._();
 
@@ -205,7 +205,7 @@ class AppLayout {
   ];
 }
 
-/// BottleCRM Animation Constants
+/// LillyCRM Animation Constants
 class AppDurations {
   AppDurations._();
 

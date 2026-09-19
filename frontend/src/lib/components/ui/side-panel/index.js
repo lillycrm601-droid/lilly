@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-const STORAGE_KEY = 'bottlecrm:side-panel-hidden';
+const STORAGE_KEY = 'lillycrm:side-panel-hidden';
 
 function readInitial() {
   if (typeof sessionStorage === 'undefined') return false;

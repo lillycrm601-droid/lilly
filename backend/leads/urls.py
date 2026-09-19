@@ -5,6 +5,7 @@ from leads.views.lead_interactions import (
     LeadAttachmentView,
     LeadCommentView,
     LeadUploadView,
+    TriggerLeadCallView,
 )
 from leads.views.lead_views import LeadDetailView, LeadListView
 from leads.views.kanban_views import (
@@ -53,6 +54,7 @@ urlpatterns = [
     # Lead detail routes (must be after specific routes due to pk pattern)
     path("<str:pk>/", LeadDetailView.as_view()),
     path("<str:pk>/move/", LeadMoveView.as_view(), name="lead_move"),
+    path("<str:pk>/trigger-call/", TriggerLeadCallView.as_view(), name="lead_trigger_call"),
     path("comment/<str:pk>/", LeadCommentView.as_view()),
     path("attachment/<str:pk>/", LeadAttachmentView.as_view()),
 ]

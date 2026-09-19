@@ -129,7 +129,7 @@ enum Priority {
   }
 }
 
-/// Lead model for BottleCRM
+/// Lead model for LillyCRM
 class Lead {
   final String id;
   final String? title;

@@ -140,7 +140,7 @@
 </script>
 
 <svelte:head>
-  <title>Approval rules - Settings - BottleCRM</title>
+  <title>Approval rules - Settings - LillyCRM</title>
 </svelte:head>
 
 <PageHeader title="Approval rules">

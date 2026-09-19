@@ -357,7 +357,7 @@
 </script>
 
 <svelte:head>
-  <title>Sales Goals - BottleCRM</title>
+  <title>Sales Goals - LillyCRM</title>
 </svelte:head>
 
 <PageHeader
@@ -573,11 +573,11 @@
             <div
               class="flex size-8 items-center justify-center rounded-full text-sm font-bold
                 {entry.rank === 1
-                ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400'
+                ? 'bg-[var(--primary)] text-[var(--primary-foreground)]'
                 : entry.rank === 2
-                  ? 'bg-gray-100 text-gray-600 dark:bg-gray-500/20 dark:text-gray-400'
+                  ? 'bg-[var(--color-grey-200)] text-[var(--color-grey-800)] dark:bg-[var(--color-grey-800)] dark:text-[var(--color-grey-200)]'
                   : entry.rank === 3
-                    ? 'bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400'
+                    ? 'bg-[var(--color-grey-100)] text-[var(--color-grey-600)] dark:bg-[var(--color-grey-900)] dark:text-[var(--color-grey-400)]'
                     : 'bg-[var(--surface-sunken)] text-[var(--text-secondary)]'}"
             >
               {entry.rank}

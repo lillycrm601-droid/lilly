@@ -140,7 +140,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   child: Column(
                     children: [
                       Text(
-                        'BottleCRM',
+                        'LillyCRM',
                         style: AppTypography.display.copyWith(
                           color: Colors.white,
                           fontSize: 36,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
-/// BottleCRM Typography System
+/// LillyCRM Typography System
 /// Using Inter - a font designed specifically for screens
 /// with excellent readability at small sizes
 class AppTypography {

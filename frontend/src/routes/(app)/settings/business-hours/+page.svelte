@@ -72,7 +72,7 @@
 </script>
 
 <svelte:head>
-  <title>Business Hours - Settings - BottleCRM</title>
+  <title>Business Hours - Settings - LillyCRM</title>
 </svelte:head>
 
 <PageHeader

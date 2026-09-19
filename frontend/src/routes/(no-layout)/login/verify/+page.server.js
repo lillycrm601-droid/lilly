@@ -24,7 +24,9 @@ export async function load({ url, cookies }) {
   }
 
   try {
-    const apiUrl = publicEnv.PUBLIC_DJANGO_API_URL;
+    // Server-side load runs inside the frontend container, so localhost:8000
+    // does not resolve to the backend. Use the Docker service name instead.
+    const apiUrl = 'http://127.0.0.1:8000';
     const response = await axios.post(
       `${apiUrl}/api/auth/magic-link/verify/`,
       { token },

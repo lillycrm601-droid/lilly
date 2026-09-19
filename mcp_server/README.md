@@ -1,7 +1,7 @@
-# BottleCRM MCP Server (`bcrm-mcp`)
+# LillyCRM MCP Server (`lcrm-mcp`)
 
-`bcrm-mcp` is a standalone [Model Context Protocol](https://modelcontextprotocol.io)
-server that lets an AI agent (Claude Desktop, Cursor, etc.) drive a BottleCRM
+`lcrm-mcp` is a standalone [Model Context Protocol](https://modelcontextprotocol.io)
+server that lets an AI agent (Claude Desktop, Cursor, etc.) drive a LillyCRM
 instance through its REST API.
 
 It is a **thin HTTP client** of the CRM API — it does *not* import Django, has no
@@ -12,11 +12,11 @@ user's role and org. All Row-Level Security, permission checks, and field
 validation are enforced by the backend — the MCP server never bypasses tenant
 isolation and adds no privileges of its own.
 
-> **Transports.** `bcrm-mcp` runs in two modes, selected by `BCRM_TRANSPORT`:
+> **Transports.** `lcrm-mcp` runs in two modes, selected by `LCRM_TRANSPORT`:
 >
-> - **`stdio`** (default) — the agent launches `bcrm-mcp` as a local subprocess
+> - **`stdio`** (default) — the agent launches `lcrm-mcp` as a local subprocess
 >   and talks over stdin/stdout. The process acts as a single user, whose token
->   is `BCRM_TOKEN`.
+>   is `LCRM_TOKEN`.
 > - **`http`** — a hosted, multi-user server (e.g. mounted in the Django app at
 >   `/mcp`). It holds **no** server-side token; instead **every request
 >   authenticates with its own `Authorization: Bearer <pat>` header**, so each
@@ -30,18 +30,18 @@ isolation and adds no privileges of its own.
 
 - Python 3.11+
 - [`uv`](https://docs.astral.sh/uv/)
-- A reachable BottleCRM backend (the community Django-CRM API)
-- A BottleCRM Personal Access Token (`bcrm_pat_…`)
+- A reachable LillyCRM backend (the community Django-CRM API)
+- A LillyCRM Personal Access Token (`lcrm_pat_…`)
 
 ## Install & run
 
 ```bash
 cd mcp_server
 uv sync
-BCRM_BASE_URL=http://localhost:8000 BCRM_TOKEN=bcrm_pat_… uv run bcrm-mcp
+LCRM_BASE_URL=http://localhost:8000 LCRM_TOKEN=lcrm_pat_… uv run lcrm-mcp
 ```
 
-`uv sync` creates `.venv/` from `pyproject.toml` + `uv.lock`. `uv run bcrm-mcp`
+`uv sync` creates `.venv/` from `pyproject.toml` + `uv.lock`. `uv run lcrm-mcp`
 launches the server over stdio (it will block waiting for an MCP client on
 stdin — that is expected; normally your MCP client launches it for you).
 
@@ -49,22 +49,22 @@ stdin — that is expected; normally your MCP client launches it for you).
 
 | Variable         | Required            | Description                                                                                           |
 | ---------------- | ------------------- | ---------------------------------------------------------------------------------------------------- |
-| `BCRM_BASE_URL`  | yes                 | Root URL of the CRM (the host, **not** an `/api/...` path), e.g. `http://localhost:8000`.             |
-| `BCRM_TRANSPORT` | no (default `stdio`)| `stdio` or `http`. See [HTTP transport](#http-transport-hosted-multi-user).                           |
-| `BCRM_TOKEN`     | stdio only          | A Personal Access Token, `bcrm_pat_…`, sent as `Authorization: Bearer <token>`. **Required for stdio; must be unset for http** (where the token comes per-request from each caller's header). |
-| `BCRM_HOST`      | no (default `127.0.0.1`) | http only — bind address when serving standalone.                                                |
-| `BCRM_PORT`      | no (default `8900`) | http only — bind port when serving standalone.                                                       |
-| `BCRM_PATH`      | no (default `/mcp`) | http only — route the streamable endpoint is served at when serving standalone.                      |
+| `LCRM_BASE_URL`  | yes                 | Root URL of the CRM (the host, **not** an `/api/...` path), e.g. `http://localhost:8000`.             |
+| `LCRM_TRANSPORT` | no (default `stdio`)| `stdio` or `http`. See [HTTP transport](#http-transport-hosted-multi-user).                           |
+| `LCRM_TOKEN`     | stdio only          | A Personal Access Token, `lcrm_pat_…`, sent as `Authorization: Bearer <token>`. **Required for stdio; must be unset for http** (where the token comes per-request from each caller's header). |
+| `LCRM_HOST`      | no (default `127.0.0.1`) | http only — bind address when serving standalone.                                                |
+| `LCRM_PORT`      | no (default `8900`) | http only — bind port when serving standalone.                                                       |
+| `LCRM_PATH`      | no (default `/mcp`) | http only — route the streamable endpoint is served at when serving standalone.                      |
 
-In stdio mode, a missing `BCRM_BASE_URL` or `BCRM_TOKEN` exits immediately. In
-http mode, a server-side `BCRM_TOKEN` is rejected (it would make every caller
+In stdio mode, a missing `LCRM_BASE_URL` or `LCRM_TOKEN` exits immediately. In
+http mode, a server-side `LCRM_TOKEN` is rejected (it would make every caller
 share one identity).
 
 ## HTTP transport (hosted, multi-user)
 
 In http mode the server is long-lived and serves many users at once. There is
 no server-side token: **each request must carry its own
-`Authorization: Bearer <bcrm_pat_…>` header**, and the server builds a fresh,
+`Authorization: Bearer <lcrm_pat_…>` header**, and the server builds a fresh,
 per-request client from that token — so every caller acts strictly as their own
 CRM identity, with their own role and org. A request with no/invalid bearer
 token is rejected before any API call is made.
@@ -79,7 +79,7 @@ installed and the app is served under ASGI (uvicorn). Clients then connect to
 ```bash
 # from Django-CRM/backend
 uv sync --extra mcp                      # installs fastmcp + this package (editable)
-BCRM_BASE_URL=http://127.0.0.1:8000 \
+LCRM_BASE_URL=http://127.0.0.1:8000 \
   uv run uvicorn crm.asgi:application --host 0.0.0.0 --port 8000
 # MCP is now at http://<host>:8000/mcp
 ```
@@ -88,9 +88,9 @@ Notes:
 
 - The mount is **inactive under `runserver`/WSGI** — it only activates when you
   serve `crm.asgi:application` under an ASGI server (uvicorn).
-- `BCRM_BASE_URL` is the loopback the in-process tools call (defaults to
-  `http://127.0.0.1:8000`). Leave `BCRM_TOKEN` **unset** — http mode takes the
-  token from each request. Set `BCRM_MCP_ENABLED=false` to disable the mount.
+- `LCRM_BASE_URL` is the loopback the in-process tools call (defaults to
+  `http://127.0.0.1:8000`). Leave `LCRM_TOKEN` **unset** — http mode takes the
+  token from each request. Set `LCRM_MCP_ENABLED=false` to disable the mount.
 - **Edge auth:** any `/mcp` request without a well-formed `Authorization: Bearer`
   header gets a `401` before reaching the MCP layer — even `initialize` and
   tool listing require a token (the token's validity is then checked by the
@@ -99,8 +99,8 @@ Notes:
 **2. Standalone.** Run the server on its own port:
 
 ```bash
-BCRM_TRANSPORT=http BCRM_BASE_URL=http://localhost:8000 \
-  BCRM_HOST=0.0.0.0 BCRM_PORT=8900 uv run bcrm-mcp
+LCRM_TRANSPORT=http LCRM_BASE_URL=http://localhost:8000 \
+  LCRM_HOST=0.0.0.0 LCRM_PORT=8900 uv run lcrm-mcp
 # streamable endpoint at http://localhost:8900/mcp
 ```
 
@@ -112,10 +112,10 @@ token in a header — nothing to install:
 ```json
 {
   "mcpServers": {
-    "bottlecrm": {
+    "lillycrm": {
       "type": "http",
-      "url": "https://api.bottlecrm.io/mcp",
-      "headers": { "Authorization": "Bearer bcrm_pat_…" }
+      "url": "https://api.lillycrm.io/mcp",
+      "headers": { "Authorization": "Bearer lcrm_pat_…" }
     }
   }
 }
@@ -129,7 +129,7 @@ same CRM access as that user, scoped to their org — treat it like a password.
 ### Option A — CRM web UI (recommended)
 
 In the CRM go to **Settings → API Tokens**, create a token, and copy the
-`bcrm_pat_…` value. **The raw token is shown only once at creation.** You can
+`lcrm_pat_…` value. **The raw token is shown only once at creation.** You can
 revoke it from the same screen at any time. That page also shows ready-to-paste
 config for each client below, pre-filled with your API host and token.
 
@@ -148,11 +148,11 @@ The PAT table is created by the `common` app migrations — if you get a
 
 ## Client configuration
 
-Register `bcrm-mcp` in your AI client and pass `BCRM_BASE_URL` + `BCRM_TOKEN` as
+Register `lcrm-mcp` in your AI client and pass `LCRM_BASE_URL` + `LCRM_TOKEN` as
 environment variables. **Claude Desktop, Cursor, and Gemini CLI share the
 identical `mcpServers` JSON schema** — only the config file differs. **Codex CLI
 uses TOML.** Replace `http://localhost:8000` with your API host (e.g.
-`https://api.bottlecrm.io`) and paste your `bcrm_pat_…` token.
+`https://api.lillycrm.io`) and paste your `lcrm_pat_…` token.
 
 | Client         | Config file                                                            | Format |
 | -------------- | ---------------------------------------------------------------------- | ------ |
@@ -166,12 +166,12 @@ uses TOML.** Replace `http://localhost:8000` with your API host (e.g.
 ```json
 {
   "mcpServers": {
-    "bottlecrm": {
+    "lillycrm": {
       "command": "uvx",
-      "args": ["bcrm-mcp"],
+      "args": ["lcrm-mcp"],
       "env": {
-        "BCRM_BASE_URL": "http://localhost:8000",
-        "BCRM_TOKEN": "bcrm_pat_…"
+        "LCRM_BASE_URL": "http://localhost:8000",
+        "LCRM_TOKEN": "lcrm_pat_…"
       }
     }
   }
@@ -181,33 +181,33 @@ uses TOML.** Replace `http://localhost:8000` with your API host (e.g.
 ### Codex CLI (TOML)
 
 ```toml
-[mcp_servers.bottlecrm]
+[mcp_servers.lillycrm]
 command = "uvx"
-args = ["bcrm-mcp"]
+args = ["lcrm-mcp"]
 
-[mcp_servers.bottlecrm.env]
-BCRM_BASE_URL = "http://localhost:8000"
-BCRM_TOKEN = "bcrm_pat_…"
+[mcp_servers.lillycrm.env]
+LCRM_BASE_URL = "http://localhost:8000"
+LCRM_TOKEN = "lcrm_pat_…"
 ```
 
-Restart the client after editing its config; it launches `bcrm-mcp` for you and
+Restart the client after editing its config; it launches `lcrm-mcp` for you and
 discovers the tools automatically.
 
 ### Until published — run from a local checkout
 
-`bcrm-mcp` is not yet on PyPI, so point the command at this directory instead of
+`lcrm-mcp` is not yet on PyPI, so point the command at this directory instead of
 using `uvx`. Use `--directory` with an absolute path so it works regardless of
 the client's working directory. For the JSON clients:
 
 ```json
 {
   "mcpServers": {
-    "bottlecrm": {
+    "lillycrm": {
       "command": "uv",
-      "args": ["run", "--directory", "/abs/path/to/mcp_server", "bcrm-mcp"],
+      "args": ["run", "--directory", "/abs/path/to/mcp_server", "lcrm-mcp"],
       "env": {
-        "BCRM_BASE_URL": "http://localhost:8000",
-        "BCRM_TOKEN": "bcrm_pat_…"
+        "LCRM_BASE_URL": "http://localhost:8000",
+        "LCRM_TOKEN": "lcrm_pat_…"
       }
     }
   }
@@ -215,8 +215,8 @@ the client's working directory. For the JSON clients:
 ```
 
 For Codex, set `command = "uv"` and
-`args = ["run", "--directory", "/abs/path/to/mcp_server", "bcrm-mcp"]`.
-(Equivalently, from inside `mcp_server` you can just run `uv run bcrm-mcp`.)
+`args = ["run", "--directory", "/abs/path/to/mcp_server", "lcrm-mcp"]`.
+(Equivalently, from inside `mcp_server` you can just run `uv run lcrm-mcp`.)
 
 ## Available tools
 
@@ -271,7 +271,7 @@ invoices, solutions**.
   delete a record or send an invoice by accident.
 - **Tokens are revocable.** Revoke a PAT from the CRM (Settings → API Tokens) to
   immediately cut off an agent. Tokens may also carry an expiry.
-- **Never commit a token.** Keep `BCRM_TOKEN` out of source control, logs, and
+- **Never commit a token.** Keep `LCRM_TOKEN` out of source control, logs, and
   shared configs. Pass it via environment / your MCP client's `env` block.
 
 ## Manual smoke test
@@ -287,19 +287,19 @@ plain async tool functions directly against a live backend:
    uv run python manage.py runserver 8000
    ```
 
-2. Mint a PAT (Option B above) and copy the printed `bcrm_pat_…`.
+2. Mint a PAT (Option B above) and copy the printed `lcrm_pat_…`.
 
 3. Run a throwaway script against the live API:
 
    ```bash
    cd ../mcp_server
-   BCRM_BASE_URL=http://localhost:8000 BCRM_TOKEN=bcrm_pat_… uv run python - <<'PY'
+   LCRM_BASE_URL=http://localhost:8000 LCRM_TOKEN=lcrm_pat_… uv run python - <<'PY'
    import asyncio, json, os
-   from bcrm_mcp.client import CrmClient
-   from bcrm_mcp import tools
+   from lcrm_mcp.client import CrmClient
+   from lcrm_mcp import tools
 
    async def main():
-       client = CrmClient(os.environ["BCRM_BASE_URL"], os.environ["BCRM_TOKEN"])
+       client = CrmClient(os.environ["LCRM_BASE_URL"], os.environ["LCRM_TOKEN"])
        print(await tools.crm_search(client, "leads", limit=5))
        print(json.dumps(await tools.crm_describe(client, "leads"), indent=2))
 
@@ -322,12 +322,12 @@ Layout:
 
 ```
 mcp_server/
-├── src/bcrm_mcp/
-│   ├── server.py     # FastMCP server, ClientResolver, `bcrm-mcp` entry + build_http_app
+├── src/lcrm_mcp/
+│   ├── server.py     # FastMCP server, ClientResolver, `lcrm-mcp` entry + build_http_app
 │   ├── tools.py      # the 8 tool implementations + OpenAPI describe heuristic
 │   ├── client.py     # async httpx wrapper (CrmClient)
 │   ├── entities.py   # entity → path / allowed-action registry
 │   ├── auth.py       # per-request bearer-token extraction (http transport)
-│   └── config.py     # env-var settings (transport, BCRM_BASE_URL, BCRM_TOKEN, …)
+│   └── config.py     # env-var settings (transport, LCRM_BASE_URL, LCRM_TOKEN, …)
 └── tests/
 ```

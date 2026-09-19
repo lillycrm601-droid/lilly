@@ -206,7 +206,7 @@ class Command(BaseCommand):
                         "WARNING: Superusers bypass RLS!\n"
                         "Create a non-superuser for the application:\n\n"
                         "  CREATE USER crm_app WITH PASSWORD 'secure_password';\n"
-                        "  GRANT CONNECT ON DATABASE bottlecrm TO crm_app;\n"
+                        "  GRANT CONNECT ON DATABASE lillycrm TO crm_app;\n"
                         "  GRANT USAGE ON SCHEMA public TO crm_app;\n"
                         "  GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO crm_app;\n"
                         "  GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO crm_app;\n"

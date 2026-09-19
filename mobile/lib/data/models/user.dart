@@ -1,4 +1,4 @@
-/// User model for BottleCRM
+/// User model for LillyCRM
 class User {
   final String id;
   final String name;

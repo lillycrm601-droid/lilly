@@ -1,17 +1,17 @@
-"""FastMCP server entry point for BottleCRM (stdio or http transport).
+"""FastMCP server entry point for LillyCRM (stdio or http transport).
 
-Wraps the plain async tool functions in ``bcrm_mcp.tools`` as FastMCP tools and
+Wraps the plain async tool functions in ``lcrm_mcp.tools`` as FastMCP tools and
 exposes a ``build_server(client=None)`` factory plus a ``main()`` console entry
-point (the ``bcrm-mcp`` script points at ``bcrm_mcp.server:main``).
+point (the ``lcrm-mcp`` script points at ``lcrm_mcp.server:main``).
 
-The transport is chosen by ``BCRM_TRANSPORT`` (default ``stdio``):
+The transport is chosen by ``LCRM_TRANSPORT`` (default ``stdio``):
 
 * **stdio** — the process acts as a single user; one :class:`CrmClient` is
-  built lazily from ``BCRM_BASE_URL`` + ``BCRM_TOKEN`` and reused.
+  built lazily from ``LCRM_BASE_URL`` + ``LCRM_TOKEN`` and reused.
 * **http** — a hosted, multi-user server; each request authenticates with its
   own ``Authorization: Bearer <pat>`` header and gets a *fresh* per-request
   :class:`CrmClient`, so every caller acts strictly as their own CRM identity.
-  See :class:`ClientResolver` and ``bcrm_mcp.auth``.
+  See :class:`ClientResolver` and ``lcrm_mcp.auth``.
 
 The client is resolved lazily on first tool call so that constructing the
 server (e.g. in tests, or to introspect tools) never requires env vars. Pass
@@ -21,10 +21,10 @@ server (e.g. in tests, or to introspect tools) never requires env vars. Pass
 from fastmcp import FastMCP
 from fastmcp.server.dependencies import get_http_headers
 
-from bcrm_mcp import tools
-from bcrm_mcp.auth import AuthError, extract_bearer_token
-from bcrm_mcp.client import CrmClient
-from bcrm_mcp.config import HTTP, Settings
+from lcrm_mcp import tools
+from lcrm_mcp.auth import AuthError, extract_bearer_token
+from lcrm_mcp.client import CrmClient
+from lcrm_mcp.config import HTTP, Settings
 
 
 def _request_headers():
@@ -66,7 +66,7 @@ class ClientResolver:
             if not token:
                 raise AuthError(
                     "Missing or malformed Authorization header. Send "
-                    "'Authorization: Bearer <bcrm_pat_…>' with your request."
+                    "'Authorization: Bearer <lcrm_pat_…>' with your request."
                 )
             # Fresh, uncached: scoped to this caller for this request only.
             return CrmClient(self._settings.base_url, token)
@@ -94,9 +94,9 @@ def build_server(client=None, settings_loader=None):
     ``settings_loader`` overrides where :class:`Settings` come from. By default
     they are read from env (``Settings.from_env``); the in-Django mount passes a
     loader that returns explicit http-mode settings so it never depends on
-    ``BCRM_TRANSPORT`` being set in the Django process env.
+    ``LCRM_TRANSPORT`` being set in the Django process env.
     """
-    mcp = FastMCP("BottleCRM")
+    mcp = FastMCP("LillyCRM")
     kwargs = {} if settings_loader is None else {"settings_loader": settings_loader}
     resolver = ClientResolver(injected=client, **kwargs)
 
@@ -181,11 +181,11 @@ def build_http_app(base_url, path="/mcp"):
 
 
 def main():
-    """Console entry point. Transport is selected by ``BCRM_TRANSPORT``.
+    """Console entry point. Transport is selected by ``LCRM_TRANSPORT``.
 
     ``stdio`` (default) talks over stdin/stdout for a locally-launched server.
-    ``http`` serves streamable-HTTP on ``BCRM_HOST``:``BCRM_PORT`` at
-    ``BCRM_PATH`` and authenticates each request from its Authorization header.
+    ``http`` serves streamable-HTTP on ``LCRM_HOST``:``LCRM_PORT`` at
+    ``LCRM_PATH`` and authenticates each request from its Authorization header.
     """
     settings = Settings.from_env()
     server = build_server()

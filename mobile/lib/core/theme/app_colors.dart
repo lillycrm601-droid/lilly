@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// BottleCRM Color System
+/// LillyCRM Color System
 /// A professional, modern color palette optimized for CRM workflows
 /// Inspired by HubSpot mobile app design patterns
 class AppColors {

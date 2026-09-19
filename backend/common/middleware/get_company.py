@@ -63,7 +63,7 @@ class GetProfileAndOrg:
             return
 
     def _extract_pat(self, request):
-        """Return a bcrm_pat_-prefixed token from the request, else None.
+        """Return a lcrm_pat_-prefixed token from the request, else None.
 
         Reuses the same extractor as the DRF auth class so the detection logic
         (Authorization: Bearer … or the Token header) lives in one place.

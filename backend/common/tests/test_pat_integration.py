@@ -40,7 +40,7 @@ class TestPATThroughMiddlewareStack:
         """A bogus PAT must be denied (not 500, not 200)."""
         client = Client()
         resp = client.get(
-            self.LIST_URL, HTTP_AUTHORIZATION="Bearer bcrm_pat_bogus"
+            self.LIST_URL, HTTP_AUTHORIZATION="Bearer lcrm_pat_bogus"
         )
         assert resp.status_code in (401, 403), resp.content
         assert resp.status_code not in (200, 500)

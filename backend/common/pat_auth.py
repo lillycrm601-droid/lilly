@@ -9,11 +9,11 @@ from common.models import PersonalAccessToken
 
 logger = logging.getLogger(__name__)
 
-PAT_PREFIX = "bcrm_pat_"
+PAT_PREFIX = "lcrm_pat_"
 
 
 def _extract_raw(request):
-    """Pull a bcrm_pat_ token from Authorization: Bearer or Token header."""
+    """Pull a lcrm_pat_ token from Authorization: Bearer or Token header."""
     auth = request.headers.get("Authorization", "")
     if auth.startswith("Bearer "):
         candidate = auth[len("Bearer "):].strip()
@@ -87,5 +87,5 @@ class PATAuthenticationScheme(OpenApiAuthenticationExtension):
         return {
             "type": "http",
             "scheme": "bearer",
-            "description": "Personal access token (bcrm_pat_…) for agent/MCP access",
+            "description": "Personal access token (lcrm_pat_…) for agent/MCP access",
         }

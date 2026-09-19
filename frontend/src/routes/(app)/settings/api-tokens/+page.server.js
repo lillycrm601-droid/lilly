@@ -2,11 +2,11 @@ import { fail } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 import { apiRequest } from '$lib/api-helpers.js';
 
-// The MCP server runs on the user's own machine, so BCRM_BASE_URL must be the
-// PUBLIC API host (e.g. https://api.bottlecrm.io) — the same base the browser
+// The MCP server runs on the user's own machine, so LCRM_BASE_URL must be the
+// PUBLIC API host (e.g. https://api.lillycrm.io) — the same base the browser
 // talks to. PUBLIC_DJANGO_API_URL is that host with no /api suffix, which is
 // exactly what the MCP client expects (it appends /api/... itself).
-const apiBaseUrl = env.PUBLIC_DJANGO_API_URL || 'https://api.bottlecrm.io';
+const apiBaseUrl = "http://127.0.0.1:8000" || 'https://api.lillycrm.io';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies, locals }) {

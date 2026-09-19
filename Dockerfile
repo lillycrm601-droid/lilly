@@ -20,14 +20,19 @@ WORKDIR /app
 # Install uv (fast Python package manager).
 COPY --from=ghcr.io/astral-sh/uv:0.11 /uv /usr/local/bin/uv
 
-# Install Python dependencies into /app/.venv (layer cached on lockfile changes)
+# Install Python dependencies into /opt/venv so the venv survives the /app volume mount.
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv
 COPY backend/pyproject.toml backend/uv.lock backend/.python-version ./
 RUN uv sync --frozen --no-install-project
 
 # Copy backend source
 COPY backend/ .
 
+# Production entrypoint for Render (dev entrypoint is mounted as a volume in docker-compose)
+COPY docker/backend/entrypoint.prod.sh /entrypoint.prod.sh
+RUN chmod +x /entrypoint.prod.sh
+
 # Put the venv's binaries on PATH so `python`, `gunicorn`, `celery` etc. resolve.
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/opt/venv/bin:$PATH"
 
 EXPOSE 8000

@@ -133,7 +133,7 @@
             class="group flex items-center gap-3 px-5 py-3 transition-all duration-200 hover:bg-[var(--color-primary-light)] dark:hover:bg-[var(--color-primary-default)]/5"
           >
             <!-- Lead info -->
-            <div class="min-w-0 flex-1">
+            <div class="min-w-0 flex-1 transition-transform duration-200 group-hover:translate-x-0.5">
               <p
                 class="truncate text-sm font-medium text-[var(--text-primary)] transition-colors group-hover:text-[var(--color-primary-default)]"
               >
@@ -169,7 +169,7 @@
 
             <!-- Hover actions -->
             <div
-              class="flex flex-shrink-0 gap-1 opacity-0 transition-all duration-200 group-hover:opacity-100"
+              class="flex flex-shrink-0 gap-1 opacity-0 translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0"
             >
               <Button
                 variant="ghost"

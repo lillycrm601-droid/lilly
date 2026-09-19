@@ -123,7 +123,7 @@ def send_stale_deals_alert(org, stale_opps):
             "url": settings.DOMAIN_NAME,
             "deal_count": len(deals),
         }
-        subject = f"[BottleCRM] {len(deals)} stale deal{'s' if len(deals) > 1 else ''} need attention"
+        subject = f"[LillyCRM] {len(deals)} stale deal{'s' if len(deals) > 1 else ''} need attention"
         html_content = render_to_string(
             "opportunity/stale_deals_alert.html", context=context
         )
@@ -228,7 +228,7 @@ def _send_goal_milestone_email(profile, goal, milestone_label, percent, achieved
         "achieved": achieved,
         "url": settings.DOMAIN_NAME,
     }
-    subject = f"[BottleCRM] Goal '{goal.name}' reached {milestone_label}!"
+    subject = f"[LillyCRM] Goal '{goal.name}' reached {milestone_label}!"
     html_content = render_to_string(
         "opportunity/goal_milestone.html", context=context
     )

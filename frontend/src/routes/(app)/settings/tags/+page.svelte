@@ -154,7 +154,7 @@
 </script>
 
 <svelte:head>
-  <title>Tags - BottleCRM</title>
+  <title>Tags - LillyCRM</title>
 </svelte:head>
 
 <PageHeader

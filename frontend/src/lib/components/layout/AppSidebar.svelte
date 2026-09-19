@@ -50,7 +50,8 @@
     BookOpen,
     Activity,
     Smartphone,
-    KeyRound
+    KeyRound,
+    Globe
   } from '@lucide/svelte';
   import { Bell } from '$lib/components/notifications/index.js';
 
@@ -62,7 +63,7 @@
    */
 
   /** @type {Props} */
-  let { user = {}, org_name = 'BottleCRM', org_settings = {} } = $props();
+  let { user = {}, org_name = 'LillyCRM', org_settings = {} } = $props();
 
   // Tier badge — hidden when JWT doesn't carry one (spec §8 "No tier in JWT")
   const tier = $derived(org_settings?.tier ?? null);
@@ -1022,7 +1023,7 @@
           {#snippet child({ props })}
             <a
               {...props}
-              href="https://play.google.com/store/apps/details?id=io.bottlecrm&hl=en"
+              href="https://play.google.com/store/apps/details?id=io.lillycrm&hl=en"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -1224,6 +1225,14 @@
               >
                 <KeyRound class="size-4" />
                 <span>API Tokens</span>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                inset={false}
+                onclick={() => navigateTo('/settings/site-integration')}
+                class="gap-2.5"
+              >
+                <Globe class="size-4" />
+                <span>Site Integrations</span>
               </DropdownMenu.Item>
             </DropdownMenu.Group>
             <DropdownMenu.Separator />

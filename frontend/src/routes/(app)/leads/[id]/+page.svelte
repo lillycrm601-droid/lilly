@@ -1,5 +1,7 @@
 <script>
-  import { goto } from '$app/navigation';
+  import { enhance } from '$app/forms';
+  import { goto, invalidateAll } from '$app/navigation';
+  import { toast } from 'svelte-sonner';
   import {
     Pencil,
     Mail,
@@ -19,7 +21,9 @@
     Users,
     UserCheck,
     FileText,
-    ExternalLink
+    ExternalLink,
+    PhoneCall,
+    Loader2
   } from '@lucide/svelte';
   import { LinkedinIcon as Linkedin } from '$lib/components/icons';
   import { PageHeader } from '$lib/components/layout';
@@ -160,10 +164,113 @@
     }
     return items.sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime());
   });
+
+  let triggeringCall = $state(false);
+  let isPolling = $state(false);
+  /** @type {any} */
+  let pollInterval = $state(null);
+
+  // Derived state to compute call status from comments
+  const callStatus = $derived.by(() => {
+    const hasInitiated = comments.some(c => c.comment.includes("Initiated immediate Bolna AI call"));
+    const hasCompleted = comments.some(c => c.comment.includes("Bolna AI Call Completed"));
+    const hasFailed = comments.some(c => c.comment.includes("Bolna AI Call failed"));
+    
+    if (hasCompleted) return "completed";
+    if (hasFailed) return "failed";
+    if (hasInitiated) return "running";
+    return "idle";
+  });
+
+  // Extract the transcript from lead description if it exists
+  const bolnaLog = $derived.by(() => {
+    if (!lead?.description) return null;
+    const marker = "--- Bolna AI Call Log";
+    const idx = lead.description.indexOf(marker);
+    if (idx === -1) return null;
+    
+    const logSection = lead.description.substring(idx);
+    const lines = logSection.split('\n');
+    let status = '';
+    let duration = '';
+    let rating = '';
+    let transcriptLines = [];
+    let inTranscript = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line.startsWith("Status:")) status = line.substring(7).trim();
+      else if (line.startsWith("Duration:")) duration = line.substring(9).trim();
+      else if (line.startsWith("Rating:")) rating = line.substring(7).trim();
+      else if (line.startsWith("Transcript:")) {
+        inTranscript = true;
+      }
+      else if (inTranscript) {
+        if (line.startsWith("--------------------")) {
+          inTranscript = false;
+        } else {
+          transcriptLines.push(lines[i]);
+        }
+      }
+    }
+    
+    // Parse transcript lines into chat bubbles
+    const dialogue = [];
+    for (let line of transcriptLines) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+      
+      const colonIdx = trimmed.indexOf(':');
+      if (colonIdx !== -1) {
+        const speaker = trimmed.substring(0, colonIdx).trim();
+        const text = trimmed.substring(colonIdx + 1).trim();
+        dialogue.push({
+          speaker: speaker.toLowerCase() === 'agent' || speaker.toLowerCase() === 'assistant' ? 'Agent' : 'Lead',
+          text
+        });
+      } else {
+        dialogue.push({
+          speaker: 'System',
+          text: trimmed
+        });
+      }
+    }
+    
+    return {
+      status,
+      duration,
+      rating,
+      dialogue
+    };
+  });
+
+  // Polling logic
+  $effect(() => {
+    if (callStatus === "running") {
+      if (!pollInterval) {
+        isPolling = true;
+        pollInterval = setInterval(async () => {
+          await invalidateAll();
+        }, 3000);
+      }
+    } else {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+        pollInterval = null;
+        isPolling = false;
+        toast.success("AI Call status updated!");
+      }
+    }
+    return () => {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+      }
+    };
+  });
 </script>
 
 <svelte:head>
-  <title>{fullName} · BottleCRM</title>
+  <title>{fullName} · LillyCRM</title>
 </svelte:head>
 
 <PageHeader
@@ -259,6 +366,148 @@
     <div class="grid grid-cols-1 gap-6 pt-4 pb-8 lg:grid-cols-[1fr_320px]">
       <!-- Main column -->
       <div class="flex flex-col gap-6">
+        <!-- Bolna AI Qualification Call Card -->
+        <div class="rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--surface-raised)]/90 p-5 shadow-[var(--shadow-sm)] dark:bg-[var(--surface-raised)]/80 backdrop-blur-md relative overflow-hidden space-y-4">
+          
+          <!-- Header and Trigger button -->
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center gap-2.5">
+              <div class="flex size-8 items-center justify-center rounded-lg bg-[var(--color-primary-light)] text-[var(--color-primary-default)] dark:bg-[var(--color-primary-default)]/15">
+                <PhoneCall class="size-4.5" />
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold tracking-tight text-[var(--text-primary)]">
+                  Bolna AI Qualification Call
+                </h3>
+                <p class="text-xs text-[var(--text-tertiary)] mt-0.5">
+                  Real-time voice qualification and transcript sync.
+                </p>
+              </div>
+            </div>
+
+            <!-- Call Trigger Form -->
+            {#if callStatus !== 'running'}
+              <form method="POST" action="?/triggerCall" use:enhance={() => {
+                triggeringCall = true;
+                return async ({ update }) => {
+                  triggeringCall = false;
+                  update();
+                };
+              }}>
+                <Button
+                  type="submit"
+                  size="sm"
+                  variant="outline"
+                  class="h-8 gap-1.5 text-xs"
+                  disabled={triggeringCall}
+                >
+                  {#if triggeringCall}
+                    <Loader2 class="size-3.5 animate-spin" />
+                    Triggering...
+                  {:else}
+                    <PhoneCall class="size-3.5" />
+                    {callStatus === 'idle' ? 'Call Lead' : 'Retry Call'}
+                  {/if}
+                </Button>
+              </form>
+            {/if}
+          </div>
+
+          <!-- Status indicator / Widget content -->
+          {#if callStatus === 'running'}
+            <div class="flex flex-col items-center justify-center py-6 text-center space-y-3">
+              <div class="relative">
+                <div class="absolute -inset-1.5 rounded-full bg-[var(--color-primary-default)]/20 animate-ping"></div>
+                <div class="relative size-12 rounded-full bg-[var(--color-primary-default)] flex items-center justify-center text-white shadow-lg shadow-[var(--color-primary-default)]/20">
+                  <PhoneCall class="size-5.5 animate-bounce" />
+                </div>
+              </div>
+              <div class="space-y-1">
+                <h4 class="text-xs font-semibold text-[var(--text-primary)] animate-pulse">Call In Progress...</h4>
+                <p class="text-[11px] text-[var(--text-tertiary)] max-w-xs">
+                  AI is currently calling <span class="font-mono font-medium text-[var(--text-primary)]">{lead?.phone || 'the lead'}</span>. Stay on this page — we will instantly update with the transcript.
+                </p>
+              </div>
+            </div>
+
+          {:else if callStatus === 'completed' && bolnaLog}
+            <!-- Qualification Summary -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-[var(--border-default)] pt-4 mt-2">
+              <div class="rounded-lg bg-[var(--bg-elevated)] p-3 border border-[var(--border-default)]">
+                <span class="text-[10px] uppercase font-bold tracking-wider text-[var(--text-subtle)] block">Lead Rating</span>
+                <span class="inline-flex items-center gap-1.5 mt-1.5">
+                  <span class="size-2 rounded-full {bolnaLog.rating === 'HOT' ? 'bg-red-500 animate-pulse' : bolnaLog.rating === 'WARM' ? 'bg-amber-500' : 'bg-slate-400'}"></span>
+                  <span class="text-xs font-semibold tracking-wide {bolnaLog.rating === 'HOT' ? 'text-red-500' : bolnaLog.rating === 'WARM' ? 'text-amber-500' : 'text-[var(--text-muted)]'}">
+                    {bolnaLog.rating}
+                  </span>
+                </span>
+              </div>
+              <div class="rounded-lg bg-[var(--bg-elevated)] p-3 border border-[var(--border-default)]">
+                <span class="text-[10px] uppercase font-bold tracking-wider text-[var(--text-subtle)] block">Duration</span>
+                <span class="text-xs font-semibold text-[var(--text-primary)] block mt-1.5 tabular-nums">
+                  {bolnaLog.duration ? `${bolnaLog.duration}s` : 'N/A'}
+                </span>
+              </div>
+              <div class="rounded-lg bg-[var(--bg-elevated)] p-3 border border-[var(--border-default)]">
+                <span class="text-[10px] uppercase font-bold tracking-wider text-[var(--text-subtle)] block">AI Call Status</span>
+                <span class="text-xs font-semibold text-green-500 block mt-1.5">
+                  COMPLETED
+                </span>
+              </div>
+            </div>
+
+            <!-- Dialogue bubbles -->
+            {#if bolnaLog.dialogue && bolnaLog.dialogue.length > 0}
+              <div class="border-t border-[var(--border-default)] pt-4 mt-3 space-y-3">
+                <h4 class="text-[11px] font-bold tracking-wider uppercase text-[var(--text-subtle)]">Call Transcript</h4>
+                <div class="max-h-[260px] overflow-y-auto pr-1.5 space-y-2.5 rounded-lg bg-[var(--bg-elevated)]/50 p-3 border border-[var(--border-default)] scrollbar-thin">
+                  {#each bolnaLog.dialogue as msg}
+                    <div class="flex flex-col gap-1 {msg.speaker === 'Agent' ? 'items-start' : 'items-end'}">
+                      <span class="text-[9px] font-bold uppercase tracking-wider text-[var(--text-subtle)] px-1">
+                        {msg.speaker}
+                      </span>
+                      <div class="max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed shadow-sm
+                        {msg.speaker === 'Agent' 
+                          ? 'bg-[var(--color-primary-default)] text-white rounded-tl-none' 
+                          : msg.speaker === 'System'
+                            ? 'bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 rounded-none w-full text-center'
+                            : 'bg-white border border-[var(--border-default)] text-[var(--text-primary)] rounded-tr-none dark:bg-[var(--bg-elevated)]'
+                        }"
+                      >
+                        {msg.text}
+                      </div>
+                    </div>
+                  {/each}
+                </div>
+              </div>
+            {/if}
+
+          {:else if callStatus === 'failed'}
+            <div class="rounded-lg border border-red-200 bg-red-50/50 p-4 dark:border-red-950/30 dark:bg-red-950/10 flex items-start gap-3">
+              <PhoneCall class="size-5 text-red-500 shrink-0 mt-0.5" />
+              <div>
+                <h4 class="text-xs font-bold text-red-700 dark:text-red-400">AI Call Failed</h4>
+                <p class="text-[11px] text-red-600 dark:text-red-500/90 mt-0.5">
+                  The last qualification call failed or was not answered. Please check the recipient's phone number and verify your API keys.
+                </p>
+              </div>
+            </div>
+
+          {:else}
+            <div class="rounded-lg border border-dashed border-[var(--border-default)] p-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[var(--surface-raised)]/20">
+              <div class="flex items-center gap-3">
+                <PhoneCall class="size-5 text-[var(--text-tertiary)]" />
+                <div>
+                  <h4 class="text-xs font-semibold text-[var(--text-primary)]">Ready to qualify lead</h4>
+                  <p class="text-[11px] text-[var(--text-tertiary)] mt-0.5">
+                    Trigger the Bolna Voice AI call to qualify this lead automatically.
+                  </p>
+                </div>
+              </div>
+            </div>
+          {/if}
+        </div>
+
         <!-- About card -->
         <SectionCard title="About">
             {#if lead?.description}

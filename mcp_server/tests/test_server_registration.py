@@ -1,4 +1,4 @@
-from bcrm_mcp.server import build_server
+from lcrm_mcp.server import build_server
 
 EXPECTED = {
     "crm_search",

@@ -182,6 +182,35 @@ def get_enable_policy_sql(table):
     Returns:
         SQL string to execute
     """
+    if table == "apiSettings":
+        return f"""
+            -- Enable RLS on table
+            ALTER TABLE "{table}" ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE "{table}" FORCE ROW LEVEL SECURITY;
+
+            -- Drop existing policies if any
+            DROP POLICY IF EXISTS {ISOLATION_POLICY} ON "{table}";
+            DROP POLICY IF EXISTS {INSERT_POLICY} ON "{table}";
+
+            -- Create isolation policy (SELECT, UPDATE, DELETE)
+            CREATE POLICY {ISOLATION_POLICY} ON "{table}"
+                FOR ALL
+                USING (
+                    org_id::text = NULLIF(current_setting('{CONTEXT_VARIABLE}', true), '')
+                    OR
+                    NULLIF(current_setting('{CONTEXT_VARIABLE}', true), '') IS NULL
+                );
+
+            -- Create insert check policy
+            CREATE POLICY {INSERT_POLICY} ON "{table}"
+                FOR INSERT
+                WITH CHECK (
+                    org_id::text = NULLIF(current_setting('{CONTEXT_VARIABLE}', true), '')
+                    OR
+                    NULLIF(current_setting('{CONTEXT_VARIABLE}', true), '') IS NULL
+                );
+        """
+
     return f"""
         -- Enable RLS on table
         ALTER TABLE "{table}" ENABLE ROW LEVEL SECURITY;

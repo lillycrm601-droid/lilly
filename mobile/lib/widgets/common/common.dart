@@ -1,4 +1,4 @@
-/// Common Widgets for BottleCRM
+/// Common Widgets for LillyCRM
 /// Barrel export for all common widget files
 library;
 

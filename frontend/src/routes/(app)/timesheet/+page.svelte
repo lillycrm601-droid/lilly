@@ -156,7 +156,7 @@
 </script>
 
 <svelte:head>
-  <title>Timesheet - BottleCRM</title>
+  <title>Timesheet - LillyCRM</title>
 </svelte:head>
 
 <PageHeader title="Timesheet">

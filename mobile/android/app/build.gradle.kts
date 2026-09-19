@@ -22,7 +22,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "io.bottlecrm"
+    namespace = "io.lillycrm"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "28.2.13676358"  // Bumped to satisfy jni plugin requirement
 
@@ -37,7 +37,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "io.bottlecrm"
+        applicationId = "io.lillycrm"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 28  // Android 9 (API 28)

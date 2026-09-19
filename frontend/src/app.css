@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BOTTLECRM DESIGN SYSTEM - Orange Primary
+   LILLYCRM DESIGN SYSTEM - Orange Primary
    A modern CRM design system with warm orange accents and professional styling
    Based on DESIGN_SYSTEM.md v1.2
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -17,236 +17,236 @@
   /* ─────────────────────────────────────────────────────────────────────────
      BRAND COLORS
      ───────────────────────────────────────────────────────────────────────── */
-  --color-brand-primary: #ea580c;
-  --color-brand-dark: #404346;
+  --color-brand-primary: #09090b;
+  --color-brand-dark: #000000;
   --color-brand-white: #ffffff;
 
   /* ─────────────────────────────────────────────────────────────────────────
-     LIGHT MODE - Clean, professional with warm orange accents
+     LIGHT MODE - Strictly Monochromatic (Pure Black, White, and Grays)
      ───────────────────────────────────────────────────────────────────────── */
 
   /* Core surfaces */
-  --background: oklch(0.985 0.002 60);
-  --foreground: oklch(0.15 0.02 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.02 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.02 260);
+  --background: #fafafa; /* Off-white background */
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
 
-  /* Primary - Orange */
-  --primary: oklch(0.58 0.2 30);
-  --primary-foreground: oklch(0.98 0 0);
+  /* Primary - Minimalist Charcoal/Black */
+  --primary: #18181b;
+  --primary-foreground: #ffffff;
 
   /* Secondary */
-  --secondary: oklch(0.96 0.01 60);
-  --secondary-foreground: oklch(0.25 0.02 260);
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
 
   /* Muted */
-  --muted: oklch(0.96 0.005 60);
-  --muted-foreground: oklch(0.45 0.02 260);
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
 
-  /* Accent - Light orange tint */
-  --accent: oklch(0.98 0.02 60);
-  --accent-foreground: oklch(0.25 0.05 30);
+  /* Accent - Pure Light Gray */
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
 
   /* Destructive */
-  --destructive: oklch(0.55 0.22 25);
+  --destructive: #7f1d1d;
 
   /* Borders & inputs */
-  --border: oklch(0.91 0.005 60);
-  --input: oklch(0.91 0.005 60);
-  --ring: oklch(0.58 0.2 30);
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #18181b;
 
-  /* Chart colors - Sequential (Orange-based) */
-  --chart-1: #ea580c;
-  --chart-2: #f97316;
-  --chart-3: #fb923c;
-  --chart-4: #fdba74;
-  --chart-5: #fed7aa;
+  /* Chart colors - Sequential (Neutral-based Monochrome) */
+  --chart-1: #09090b;
+  --chart-2: #27272a;
+  --chart-3: #52525b;
+  --chart-4: #a1a1aa;
+  --chart-5: #e4e4e7;
 
-  /* Sidebar */
-  --sidebar: oklch(1 0 0);
-  --sidebar-foreground: #111827;
-  --sidebar-primary: #ea580c;
-  --sidebar-primary-foreground: oklch(0.995 0 0);
-  --sidebar-accent: oklch(0.96 0 0);
-  --sidebar-accent-foreground: #111827;
-  --sidebar-border: oklch(0.94 0 0);
-  --sidebar-ring: #ea580c;
-  --sidebar-active-fill: oklch(0.94 0 0);
-  --sidebar-muted: #4b5563;
-  --sidebar-subtle: #9ca3af;
+  /* Sidebar - Minimalist light mode */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #18181b;
+  --sidebar-primary: #09090b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #09090b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #09090b;
+  --sidebar-active-fill: #f4f4f5;
+  --sidebar-muted: #71717a;
+  --sidebar-subtle: #a1a1aa;
 
   /* ─────────────────────────────────────────────────────────────────────────
-     PRIMARY COLOR SCALE
+     PRIMARY COLOR SCALE - Monochrome
      ───────────────────────────────────────────────────────────────────────── */
-  --color-primary-default: #ea580c;
-  --color-primary-hover: #c2410c;
-  --color-primary-dark: #c2410c;
-  --color-primary-active: #9a3412;
-  --color-primary-light: #fff7ed;
+  --color-primary-default: #09090b;
+  --color-primary-hover: #27272a;
+  --color-primary-dark: #18181b;
+  --color-primary-active: #000000;
+  --color-primary-light: #f4f4f5;
 
   /* ─────────────────────────────────────────────────────────────────────────
-     SEMANTIC COLORS
+     SEMANTIC COLORS - Monochromatic Slate/Grays
      ───────────────────────────────────────────────────────────────────────── */
 
   /* Negative/Error */
-  --color-negative-default: #dc3545;
-  --color-negative-hover: #c82333;
-  --color-negative-light: #fdeaea;
+  --color-negative-default: #27272a;
+  --color-negative-hover: #09090b;
+  --color-negative-light: #f4f4f5;
 
   /* Warning */
-  --color-warning-default: #ffc107;
-  --color-warning-dark: #e0a800;
-  --color-warning-light: #fff8e1;
+  --color-warning-default: #3f3f46;
+  --color-warning-dark: #18181b;
+  --color-warning-light: #fafafa;
 
   /* Success */
-  --color-success-default: #28a745;
-  --color-success-dark: #1e7e34;
-  --color-success-light: #e8f5e9;
+  --color-success-default: #09090b;
+  --color-success-dark: #000000;
+  --color-success-light: #f4f4f5;
 
   /* Info */
-  --color-info-default: #17a2b8;
-  --color-info-light: #e3f2fd;
+  --color-info-default: #52525b;
+  --color-info-light: #fafafa;
 
   /* ─────────────────────────────────────────────────────────────────────────
      GREY SCALE
      ───────────────────────────────────────────────────────────────────────── */
   --color-grey-50: #fafafa;
-  --color-grey-100: #f5f5f5;
-  --color-grey-200: #eeeeee;
-  --color-grey-300: #e0e0e0;
-  --color-grey-400: #bdbdbd;
-  --color-grey-500: #9e9e9e;
-  --color-grey-600: #757575;
-  --color-grey-700: #616161;
-  --color-grey-800: #424242;
-  --color-grey-900: #212121;
+  --color-grey-100: #f4f4f5;
+  --color-grey-200: #e4e4e7;
+  --color-grey-300: #d4d4d8;
+  --color-grey-400: #a1a1aa;
+  --color-grey-500: #71717a;
+  --color-grey-600: #52525b;
+  --color-grey-700: #3f3f46;
+  --color-grey-800: #27272a;
+  --color-grey-900: #18181b;
 
   /* ─────────────────────────────────────────────────────────────────────────
      SURFACE COLORS
      ───────────────────────────────────────────────────────────────────────── */
   --surface-default: #ffffff;
   --surface-raised: #ffffff;
-  --surface-sunken: #f5f5f5;
+  --surface-sunken: #fafafa;
   --surface-overlay: #ffffff;
 
   /* ─────────────────────────────────────────────────────────────────────────
      TEXT COLORS
      ───────────────────────────────────────────────────────────────────────── */
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-tertiary: #9ca3af;
-  --text-disabled: #bdbdbd;
+  --text-primary: #09090b;
+  --text-secondary: #52525b;
+  --text-tertiary: #a1a1aa;
+  --text-disabled: #d4d4d8;
   --text-inverse: #ffffff;
-  --text-link: #ea580c;
-  --text-error: #dc3545;
+  --text-link: #09090b; /* Pure monochrome link */
+  --text-error: #27272a;
 
   /* ─────────────────────────────────────────────────────────────────────────
      BORDER COLORS
      ───────────────────────────────────────────────────────────────────────── */
-  --border-default: #e0e0e0;
-  --border-subtle: #eeeeee;
-  --border-strong: #bdbdbd;
-  --border-focus: #ea580c;
-  --border-error: #dc3545;
+  --border-default: #e4e4e7;
+  --border-subtle: #f4f4f5;
+  --border-strong: #a1a1aa;
+  --border-focus: #09090b;
+  --border-error: #27272a;
 
   /* ─────────────────────────────────────────────────────────────────────────
-     PIPELINE STAGE COLORS
+     PIPELINE STAGE COLORS - Neo-Brutalist Vibrant Highlighters
      ───────────────────────────────────────────────────────────────────────── */
-  --stage-new: #ea580c;
-  --stage-contacted: #f97316;
-  --stage-qualified: #3b82f6;
-  --stage-proposal: #8b5cf6;
-  --stage-negotiation: #f59e0b;
-  --stage-won: #22c55e;
-  --stage-lost: #ef4444;
+  --stage-new: #00e5ff; /* Cyan */
+  --stage-contacted: #0070f3; /* Electric Blue */
+  --stage-qualified: #8b5cf6; /* Electric Purple */
+  --stage-proposal: #ff007f; /* Hot Pink */
+  --stage-negotiation: #eab308; /* Neon Yellow/Gold */
+  --stage-won: #22c55e; /* Lime Green */
+  --stage-lost: #ef4444; /* Neon Red */
 
   /* Pipeline Stage Backgrounds */
-  --stage-new-bg: #fff7ed;
-  --stage-contacted-bg: #ffedd5;
-  --stage-qualified-bg: #eff6ff;
-  --stage-proposal-bg: #f5f3ff;
-  --stage-negotiation-bg: #fffbeb;
+  --stage-new-bg: #e6fdff;
+  --stage-contacted-bg: #eff6ff;
+  --stage-qualified-bg: #f5f3ff;
+  --stage-proposal-bg: #fff0f6;
+  --stage-negotiation-bg: #fef9c3;
   --stage-won-bg: #f0fdf4;
   --stage-lost-bg: #fef2f2;
 
   /* ─────────────────────────────────────────────────────────────────────────
      ACTIVITY TYPE COLORS
      ───────────────────────────────────────────────────────────────────────── */
-  --activity-call: #22c55e;
-  --activity-email: #3b82f6;
-  --activity-meeting: #8b5cf6;
-  --activity-task: #f59e0b;
-  --activity-note: #6b7280;
-  --activity-deadline: #ef4444;
+  --activity-call: #22c55e; /* Lime Green */
+  --activity-email: #0070f3; /* Electric Blue */
+  --activity-meeting: #8b5cf6; /* Electric Purple */
+  --activity-task: #eab308; /* Neon Yellow */
+  --activity-note: #a1a1aa; /* Muted gray */
+  --activity-deadline: #ff007f; /* Hot Pink */
 
   /* ─────────────────────────────────────────────────────────────────────────
      LEAD TEMPERATURE
      ───────────────────────────────────────────────────────────────────────── */
-  --lead-hot: #ef4444;
-  --lead-warm: #f59e0b;
-  --lead-cold: #6b7280;
+  --lead-hot: #ff007f; /* Hot Pink */
+  --lead-warm: #eab308; /* Neon Yellow */
+  --lead-cold: #00e5ff; /* Neon Cyan */
 
   /* Lead Temperature Backgrounds */
-  --lead-hot-bg: #fef2f2;
-  --lead-warm-bg: #fffbeb;
-  --lead-cold-bg: #f3f4f6;
+  --lead-hot-bg: #fff0f6;
+  --lead-warm-bg: #fef9c3;
+  --lead-cold-bg: #e6fdff;
 
   /* ─────────────────────────────────────────────────────────────────────────
      PRIORITY LEVELS
      ───────────────────────────────────────────────────────────────────────── */
-  --priority-urgent: #dc2626;
-  --priority-urgent-bg: #fee2e2;
-  --priority-high: #f97316;
-  --priority-high-bg: #ffedd5;
-  --priority-medium: #fbbf24;
-  --priority-medium-bg: #fef3c7;
-  --priority-low: #22c55e;
-  --priority-low-bg: #dcfce7;
-  --priority-none: #9ca3af;
+  --priority-urgent: #ef4444; /* Neon Red */
+  --priority-urgent-bg: #fef2f2;
+  --priority-high: #ff5f1f; /* Neon Orange */
+  --priority-high-bg: #fff7ed;
+  --priority-medium: #eab308; /* Neon Yellow */
+  --priority-medium-bg: #fef9c3;
+  --priority-low: #22c55e; /* Lime Green */
+  --priority-low-bg: #f0fdf4;
+  --priority-none: #71717a;
 
   /* ─────────────────────────────────────────────────────────────────────────
      DEAL PROBABILITY
      ───────────────────────────────────────────────────────────────────────── */
-  --probability-high: #22c55e;
-  --probability-mid: #f59e0b;
-  --probability-low: #ef4444;
+  --probability-high: #09090b;
+  --probability-mid: #52525b;
+  --probability-low: #a1a1aa;
 
   /* ─────────────────────────────────────────────────────────────────────────
      TASK STATUS
      ───────────────────────────────────────────────────────────────────────── */
-  --task-overdue: #ef4444;
-  --task-due-today: #f59e0b;
-  --task-upcoming: #3b82f6;
-  --task-completed: #22c55e;
-  --task-cancelled: #9ca3af;
+  --task-overdue: #ef4444; /* Neon Red */
+  --task-due-today: #ff5f1f; /* Neon Orange */
+  --task-upcoming: #00e5ff; /* Cyber Cyan */
+  --task-completed: #22c55e; /* Lime Green */
+  --task-cancelled: #71717a;
 
   /* Task Status Backgrounds */
   --task-overdue-bg: #fef2f2;
-  --task-due-today-bg: #fffbeb;
-  --task-upcoming-bg: #eff6ff;
+  --task-due-today-bg: #fff7ed;
+  --task-upcoming-bg: #e6fdff;
   --task-completed-bg: #f0fdf4;
-  --task-cancelled-bg: #f3f4f6;
+  --task-cancelled-bg: #fafafa;
 
   /* ─────────────────────────────────────────────────────────────────────────
      CHARTS - CATEGORICAL
      ───────────────────────────────────────────────────────────────────────── */
-  --cat-1: #ea580c;
-  --cat-2: #3b82f6;
-  --cat-3: #22c55e;
-  --cat-4: #8b5cf6;
-  --cat-5: #ec4899;
-  --cat-6: #14b8a6;
+  --cat-1: #00e5ff; /* Cyan */
+  --cat-2: #ff007f; /* Hot Pink */
+  --cat-3: #22c55e; /* Lime Green */
+  --cat-4: #8b5cf6; /* Electric Purple */
+  --cat-5: #ff5f1f; /* Neon Orange */
+  --cat-6: #eab308; /* Neon Yellow */
 
   /* ─────────────────────────────────────────────────────────────────────────
      PROGRESS BAR
      ───────────────────────────────────────────────────────────────────────── */
-  --progress-default: #ea580c;
-  --progress-success: #22c55e;
-  --progress-warning: #f59e0b;
-  --progress-danger: #ef4444;
-  --progress-bg: #e5e7eb;
+  --progress-default: #00e5ff; /* Cyan */
+  --progress-success: #22c55e; /* Lime Green */
+  --progress-warning: #eab308; /* Neon Yellow */
+  --progress-danger: #ef4444; /* Neon Red */
+  --progress-bg: #e4e4e7;
 
   /* ─────────────────────────────────────────────────────────────────────────
      SPACING (8px Grid System)
@@ -301,7 +301,7 @@
   --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
 
   /* Focus Ring */
-  --focus-ring: 0 0 0 2px var(--surface-default), 0 0 0 4px var(--color-primary-default);
+  --focus-ring: 0 0 0 2px var(--surface-default), 0 0 0 4px var(--accent-primary);
 
   /* ─────────────────────────────────────────────────────────────────────────
      ICON SIZES
@@ -377,8 +377,8 @@
   /* ─────────────────────────────────────────────────────────────────────────
      TYPOGRAPHY
      ───────────────────────────────────────────────────────────────────────── */
-  --font-family-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-mono: 'Geist Mono', 'SF Mono', 'Fira Code', Consolas, monospace;
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, monospace;
   --font-sans: var(--font-family-sans);
   --font-body: var(--font-family-sans);
   --font-mono: var(--font-family-mono);
@@ -395,68 +395,63 @@
 
   /* Legacy semantic aliases */
   --bg-base: #fafafa;
-  --bg-subtle: #f5f5f5;
-  --bg-muted: #eeeeee;
-  --bg-emphasis: #e0e0e0;
-  --accent-primary: #ea580c;
-  --accent-primary-hover: #c2410c;
-  --accent-primary-subtle: #fff7ed;
-  --accent-secondary: #f59e0b;
-  --accent-secondary-hover: #d97706;
-  --accent-secondary-subtle: #fffbeb;
-  --status-success: #28a745;
-  --status-success-bg: #e8f5e9;
-  --status-warning: #ffc107;
-  --status-warning-bg: #fff8e1;
-  --status-danger: #dc3545;
-  --status-danger-bg: #fdeaea;
-  --status-info: #17a2b8;
-  --status-info-bg: #e3f2fd;
+  --bg-subtle: #f4f4f5;
+  --bg-muted: #e4e4e7;
+  --bg-emphasis: #d4d4d8;
+  --accent-primary: #09090b;
+  --accent-primary-hover: #27272a;
+  --accent-primary-subtle: #f4f4f5;
+  --accent-secondary: #27272a;
+  --accent-secondary-hover: #3f3f46;
+  --accent-secondary-subtle: #fafafa;
+  --status-success: #09090b;
+  --status-success-bg: #f4f4f5;
+  --status-warning: #3f3f46;
+  --status-warning-bg: #fafafa;
+  --status-danger: #27272a;
+  --status-danger-bg: #f4f4f5;
+  --status-info: #52525b;
+  --status-info-bg: #fafafa;
 
   /* ─────────────────────────────────────────────────────────────────────────
      REDESIGN TOKENS (2026-05-10 spec) — Phase 1
-     New design system, additive. Existing tokens above are kept for
-     back-compat until Phase 2+ migrates components onto these.
-     Spec: docs/superpowers/specs/2026-05-10-app-redesign-design.md
      ───────────────────────────────────────────────────────────────────────── */
 
   /* Surface */
   --bg: #ffffff;
   --bg-page: #fafafa;
   --bg-card: #ffffff;
-  --bg-elevated: #fafafa;
-  --bg-hover: #f5f5f4;
-  --bg-active: #f0efed;
+  --bg-elevated: #ffffff;
+  --bg-hover: #f4f4f5;
+  --bg-active: #e4e4e7;
   --bg-input: #ffffff;
 
-  /* Border (NOTE: --border, --border-strong, --focus-ring redefined — see Phase 1 plan §Task 3) */
-  --border-faint: #f0f0f0;
-  --border: #e5e5e5;
-  --border-strong: #c4c4c4;
-  --focus-ring: rgba(17, 17, 17, 0.10);
+  /* Border */
+  --border-faint: #f4f4f5;
+  --border: #e4e4e7;
+  --border-strong: #71717a;
+  --focus-ring: rgba(0, 0, 0, 0.10);
 
-  /* Text — aliases of canonical --text-primary/secondary/tertiary (defined above).
-     Keep both names so the typography utilities (.t-body / .t-meta / etc.) can reference
-     short names while pages that grew up using --text-primary keep working. */
+  /* Text — aliases of canonical --text-primary/secondary/tertiary */
   --text: var(--text-primary);
   --text-muted: var(--text-secondary);
   --text-subtle: var(--text-tertiary);
 
   /* Accents — semantic */
-  --green: #10b981;
-  --green-soft: rgba(16, 185, 129, 0.12);
-  --green-soft-text: #047857;
-  --violet: #7c3aed;
-  --violet-soft: rgba(124, 58, 237, 0.10);
+  --green: #22c55e;
+  --green-soft: #f0fdf4;
+  --green-soft-text: #15803d;
+  --violet: #8b5cf6;
+  --violet-soft: #f5f3ff;
   --violet-soft-text: #6d28d9;
-  --amber-soft: rgba(217, 119, 6, 0.10);
-  --amber-soft-text: #92400e;
-  --red: #dc2626;
-  --red-soft: rgba(220, 38, 38, 0.08);
-  --orange: #ea580c;
+  --amber-soft: #fef9c3;
+  --amber-soft-text: #a16207;
+  --red: #ef4444;
+  --red-soft: #fef2f2;
+  --orange: #ff5f1f;
 
   /* CTA */
-  --cta-bg: #111111;
+  --cta-bg: #09090b;
   --cta-text: #ffffff;
   --cta-bg-hover: #000000;
 
@@ -467,7 +462,7 @@
   --r-xl: 12px;
   --r-full: 9999px;
 
-  /* Fonts (override existing aliases at lines ~379–381) */
+  /* Fonts */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, ui-sans-serif, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, ui-sans-serif, sans-serif;
@@ -479,163 +474,178 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .dark {
-  /* Core surfaces - Deep with subtle warmth */
-  --background: oklch(0.12 0.01 30);
-  --foreground: oklch(0.95 0.005 60);
-  --card: oklch(0.16 0.01 30);
-  --card-foreground: oklch(0.95 0.005 60);
-  --popover: oklch(0.18 0.012 30);
-  --popover-foreground: oklch(0.95 0.005 60);
+  /* Core surfaces - Deep darks with pure neutrals */
+  --background: #000000; /* Pure dark background */
+  --foreground: #fafafa; /* Off-white */
+  --card: #09090b;
+  --card-foreground: #fafafa;
+  --popover: #09090b;
+  --popover-foreground: #fafafa;
 
-  /* Primary - Vivid orange */
-  --primary: oklch(0.72 0.18 35);
-  --primary-foreground: oklch(0.12 0.01 30);
+  /* Primary - Vivid white */
+  --primary: #ffffff;
+  --primary-foreground: #09090b;
 
   /* Secondary */
-  --secondary: oklch(0.22 0.01 30);
-  --secondary-foreground: oklch(0.92 0.005 60);
+  --secondary: #27272a;
+  --secondary-foreground: #fafafa;
 
   /* Muted */
-  --muted: oklch(0.22 0.008 30);
-  --muted-foreground: oklch(0.65 0.01 60);
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
 
-  /* Accent - Warm orange glow */
-  --accent: oklch(0.25 0.04 35);
-  --accent-foreground: oklch(0.85 0.12 35);
+  /* Accent - Pure dark gray accent */
+  --accent: #18181b;
+  --accent-foreground: #fafafa;
 
-  /* Destructive */
-  --destructive: oklch(0.65 0.2 25);
+  /* Destructive - Stark white/light gray */
+  --destructive: #fca5a5;
 
   /* Borders & inputs */
-  --border: oklch(0.28 0.01 30);
-  --input: oklch(0.24 0.01 30);
-  --ring: oklch(0.7 0.16 35);
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #ffffff;
 
-  /* Chart colors - Vibrant */
-  --chart-1: #fb923c;
-  --chart-2: #fdba74;
-  --chart-3: #fed7aa;
-  --chart-4: #ffedd5;
-  --chart-5: #fff7ed;
+  /* Chart colors - Sequential (Neutral dark-to-light sequence) */
+  --chart-1: #ffffff;
+  --chart-2: #e4e4e7;
+  --chart-3: #a1a1aa;
+  --chart-4: #27272a;
+  --chart-5: #18181b;
 
   /* Sidebar */
-  --sidebar: oklch(0.14 0 0);
-  --sidebar-foreground: rgba(255, 255, 255, 0.95);
-  --sidebar-primary: #fb923c;
-  --sidebar-primary-foreground: oklch(0.12 0.01 30);
-  --sidebar-accent: rgba(255, 255, 255, 0.06);
-  --sidebar-accent-foreground: rgba(255, 255, 255, 0.95);
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: #fb923c;
-  --sidebar-active-fill: rgba(255, 255, 255, 0.10);
-  --sidebar-muted: #9ca3af;
-  --sidebar-subtle: #6b7280;
+  --sidebar: #000000;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #09090b;
+  --sidebar-accent: #18181b;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #27272a;
+  --sidebar-ring: #ffffff;
+  --sidebar-active-fill: #18181b;
+  --sidebar-muted: #a1a1aa;
+  --sidebar-subtle: #71717a;
 
   /* Primary color scale - Dark mode */
-  --color-primary-default: #fb923c;
-  --color-primary-hover: #fdba74;
-  --color-primary-dark: #f97316;
-  --color-primary-active: #f97316;
-  --color-primary-light: #431407;
+  --color-primary-default: #ffffff;
+  --color-primary-hover: #fafafa;
+  --color-primary-dark: #e4e4e7;
+  --color-primary-active: #ffffff;
+  --color-primary-light: #18181b;
 
   /* Surface Colors - Dark mode */
-  --surface-default: #1e1e1e;
-  --surface-raised: #252525;
-  --surface-sunken: #141414;
-  --surface-overlay: #2d2d2d;
+  --surface-default: #000000;
+  --surface-raised: #09090b;
+  --surface-sunken: #000000;
+  --surface-overlay: #09090b;
 
   /* Text Colors - Dark mode */
-  --text-primary: rgba(255, 255, 255, 0.95);
-  --text-secondary: #9ca3af;
-  --text-tertiary: #6b7280;
-  --text-disabled: #525252;
-  --text-inverse: #212121;
-  --text-link: #fb923c;
-  --text-error: #f87171;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-disabled: #3f3f46;
+  --text-inverse: #09090b;
+  --text-link: #ffffff;
+  --text-error: #e4e4e7;
 
   /* Border Colors - Dark mode */
-  --border-default: #3d3d3d;
-  --border-subtle: #2a2a2a;
-  --border-strong: #525252;
-  --border-focus: #fb923c;
-  --border-error: #f87171;
+  --border-default: #27272a;
+  --border-subtle: #18181b;
+  --border-strong: #3f3f46;
+  --border-focus: #ffffff;
+  --border-error: #e4e4e7;
 
   /* Background Layers - Dark */
-  --bg-base: #0c0d12;
-  --bg-subtle: #121318;
-  --bg-muted: #181a21;
-  --bg-emphasis: #1f222b;
+  --bg-base: #000000;
+  --bg-subtle: #09090b;
+  --bg-muted: #09090b;
+  --bg-emphasis: #18181b;
 
-  /* Accent Colors - Orange glow */
-  --accent-primary: #fb923c;
-  --accent-primary-hover: #fdba74;
-  --accent-primary-subtle: rgba(251, 146, 60, 0.1);
-  --accent-secondary: #fbbf24;
-  --accent-secondary-hover: #f59e0b;
-  --accent-secondary-subtle: rgba(251, 191, 36, 0.1);
+  /* Accent Colors - Monochrome White glow */
+  --accent-primary: #ffffff;
+  --accent-primary-hover: #fafafa;
+  --accent-primary-subtle: rgba(255, 255, 255, 0.1);
+  --accent-secondary: #e4e4e7;
+  --accent-secondary-hover: #ffffff;
+  --accent-secondary-subtle: rgba(255, 255, 255, 0.05);
 
-  /* Status Colors - Vivid in dark */
-  --status-success: #34d399;
-  --status-success-bg: rgba(52, 211, 153, 0.12);
-  --status-warning: #fbbf24;
-  --status-warning-bg: rgba(251, 191, 36, 0.12);
-  --status-danger: #f87171;
-  --status-danger-bg: rgba(248, 113, 113, 0.12);
-  --status-info: #38bdf8;
-  --status-info-bg: rgba(56, 189, 248, 0.12);
+  /* Status Colors - Dark mode neutrals */
+  --status-success: #ffffff;
+  --status-success-bg: rgba(255, 255, 255, 0.08);
+  --status-warning: #e4e4e7;
+  --status-warning-bg: rgba(228, 228, 231, 0.08);
+  --status-danger: #a1a1aa;
+  --status-danger-bg: rgba(161, 161, 170, 0.08);
+  --status-info: #71717a;
+  --status-info-bg: rgba(113, 113, 122, 0.08);
 
   /* Semantic colors dark mode */
-  --color-negative-default: #f87171;
-  --color-negative-hover: #fca5a5;
-  --color-negative-light: rgba(248, 113, 113, 0.15);
-  --color-warning-default: #fbbf24;
-  --color-warning-dark: #fcd34d;
-  --color-warning-light: rgba(251, 191, 36, 0.15);
-  --color-success-default: #34d399;
-  --color-success-dark: #10b981;
-  --color-success-light: rgba(52, 211, 153, 0.15);
-  --color-info-default: #38bdf8;
-  --color-info-light: rgba(56, 189, 248, 0.15);
+  --color-negative-default: #e4e4e7;
+  --color-negative-hover: #ffffff;
+  --color-negative-light: rgba(255, 255, 255, 0.08);
+  --color-warning-default: #a1a1aa;
+  --color-warning-dark: #71717a;
+  --color-warning-light: rgba(161, 161, 170, 0.08);
+  --color-success-default: #ffffff;
+  --color-success-dark: #e4e4e7;
+  --color-success-light: rgba(255, 255, 255, 0.08);
+  --color-info-default: #71717a;
+  --color-info-light: rgba(113, 113, 122, 0.08);
 
   /* Grey Scale - Dark mode */
-  --color-grey-50: #18181b;
-  --color-grey-100: #27272a;
-  --color-grey-200: #3f3f46;
-  --color-grey-300: #52525b;
-  --color-grey-400: #71717a;
-  --color-grey-500: #a1a1aa;
-  --color-grey-600: #d4d4d8;
-  --color-grey-700: #e4e4e7;
-  --color-grey-800: #f4f4f5;
+  --color-grey-50: #09090b;
+  --color-grey-100: #18181b;
+  --color-grey-200: #27272a;
+  --color-grey-300: #3f3f46;
+  --color-grey-400: #52525b;
+  --color-grey-500: #71717a;
+  --color-grey-600: #a1a1aa;
+  --color-grey-700: #d4d4d8;
+  --color-grey-800: #e4e4e7;
   --color-grey-900: #fafafa;
 
-  /* Stage Colors - Lighter variants for dark mode */
-  --stage-new-bg: rgba(234, 88, 12, 0.15);
-  --stage-contacted-bg: rgba(249, 115, 22, 0.15);
-  --stage-qualified-bg: rgba(59, 130, 246, 0.15);
-  --stage-proposal-bg: rgba(139, 92, 246, 0.15);
-  --stage-negotiation-bg: rgba(245, 158, 11, 0.15);
-  --stage-won-bg: rgba(34, 197, 94, 0.15);
-  --stage-lost-bg: rgba(239, 68, 68, 0.15);
+  /* Stage Colors - Dark mode monochrome stages */
+  --stage-new: #00e5ff;
+  --stage-contacted: #0070f3;
+  --stage-qualified: #a855f7;
+  --stage-proposal: #ff007f;
+  --stage-negotiation: #facc15;
+  --stage-won: #39ff14;
+  --stage-lost: #ff3b30;
 
-  /* Lead Temperature Backgrounds - Dark mode */
-  --lead-hot-bg: rgba(239, 68, 68, 0.15);
-  --lead-warm-bg: rgba(245, 158, 11, 0.15);
-  --lead-cold-bg: rgba(107, 114, 128, 0.15);
+  --stage-new-bg: rgba(0, 229, 255, 0.15);
+  --stage-contacted-bg: rgba(0, 112, 243, 0.15);
+  --stage-qualified-bg: rgba(168, 85, 247, 0.15);
+  --stage-proposal-bg: rgba(255, 0, 127, 0.15);
+  --stage-negotiation-bg: rgba(250, 204, 21, 0.15);
+  --stage-won-bg: rgba(57, 255, 20, 0.15);
+  --stage-lost-bg: rgba(255, 59, 48, 0.15);
 
-  /* Task Status Backgrounds - Dark mode */
-  --task-overdue-bg: rgba(239, 68, 68, 0.15);
-  --task-due-today-bg: rgba(245, 158, 11, 0.15);
-  --task-upcoming-bg: rgba(59, 130, 246, 0.15);
-  --task-completed-bg: rgba(34, 197, 94, 0.15);
-  --task-cancelled-bg: rgba(156, 163, 175, 0.15);
+  /* Lead Temperature - Dark mode */
+  --lead-hot: #ff007f;
+  --lead-warm: #facc15;
+  --lead-cold: #00e5ff;
+  --lead-hot-bg: rgba(255, 0, 127, 0.15);
+  --lead-warm-bg: rgba(250, 204, 21, 0.15);
+  --lead-cold-bg: rgba(0, 229, 255, 0.15);
+
+  /* Task Status - Dark mode */
+  --task-overdue: #ff3b30;
+  --task-due-today: #ff5f1f;
+  --task-upcoming: #00e5ff;
+  --task-completed: #39ff14;
+  --task-overdue-bg: rgba(255, 59, 48, 0.15);
+  --task-due-today-bg: rgba(255, 95, 31, 0.15);
+  --task-upcoming-bg: rgba(0, 229, 255, 0.15);
+  --task-completed-bg: rgba(57, 255, 20, 0.15);
+  --task-cancelled-bg: rgba(113, 113, 122, 0.15);
 
   /* Progress - Dark mode */
-  --progress-bg: #3f3f46;
+  --progress-bg: #27272a;
 
   /* Glass morphism - Dark variant */
-  --glass-bg: rgba(18, 19, 24, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(24, 24, 27, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.05);
   --glass-blur: 16px;
 
   /* ─────────────────────────────────────────────────────────────────────────
@@ -645,40 +655,40 @@
   /* Surface */
   --bg: #000000;
   --bg-page: #000000;
-  --bg-card: #0a0a0b;
-  --bg-elevated: #131316;
-  --bg-hover: #18181c;
-  --bg-active: #1f1f23;
-  --bg-input: #131316;
+  --bg-card: #09090b;
+  --bg-elevated: #18181b;
+  --bg-hover: #18181b;
+  --bg-active: #27272a;
+  --bg-input: #000000;
 
   /* Border */
-  --border-faint: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 255, 255, 0.10);
-  --border-strong: rgba(255, 255, 255, 0.20);
-  --focus-ring: rgba(237, 242, 245, 0.14);
+  --border-faint: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --focus-ring: rgba(255, 255, 255, 0.10);
 
-  /* Text — aliases of canonical --text-primary/secondary/tertiary (dark theme defined above). */
+  /* Text — aliases of canonical --text-primary/secondary/tertiary */
   --text: var(--text-primary);
   --text-muted: var(--text-secondary);
   --text-subtle: var(--text-tertiary);
 
   /* Accents — semantic */
-  --green: #10b981;
-  --green-soft: rgba(16, 185, 129, 0.14);
-  --green-soft-text: #6ee7b7;
-  --violet: #7c7cff;
-  --violet-soft: rgba(124, 124, 255, 0.14);
-  --violet-soft-text: #c4c4ff;
-  --amber-soft: rgba(217, 119, 6, 0.18);
-  --amber-soft-text: #fcd34d;
-  --red: #f87171;
-  --red-soft: rgba(248, 113, 113, 0.10);
-  --orange: #ea580c;
+  --green: #39ff14;
+  --green-soft: rgba(57, 255, 20, 0.15);
+  --green-soft-text: #39ff14;
+  --violet: #a855f7;
+  --violet-soft: rgba(168, 85, 247, 0.15);
+  --violet-soft-text: #c084fc;
+  --amber-soft: rgba(250, 204, 21, 0.15);
+  --amber-soft-text: #fde047;
+  --red: #ff3b30;
+  --red-soft: rgba(255, 59, 48, 0.15);
+  --orange: #ff5f1f;
 
   /* CTA (inverted) */
   --cta-bg: #ffffff;
-  --cta-text: #18181b;
-  --cta-bg-hover: #ededed;
+  --cta-text: #09090b;
+  --cta-bg-hover: #f4f4f5;
 
   /* Radii + fonts inherit from :root — no override needed */
 }
@@ -1276,13 +1286,88 @@ select {
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     MICRO-INTERACTIONS & SMALL GESTURES
+     ───────────────────────────────────────────────────────────────────────── */
+  
+  /* Soft pulsing ring for indicators */
+  .pulse-dot {
+    position: relative;
+  }
+  
+  .pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: 0;
+    animation: dot-pulse 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+  
+  @keyframes dot-pulse {
+    0% {
+      transform: scale(0.9);
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 0.2;
+    }
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
+  /* Micro-interactions for interactive cards */
+  .card-interactive {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.06);
+    border-color: var(--border-strong) !important;
+  }
+  
+  .dark .card-interactive:hover {
+    box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.7), 
+                0 0 12px -4px rgba(255, 255, 255, 0.15);
+  }
+
+  /* Press effect for buttons */
+  .btn-interactive {
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .btn-interactive:active {
+    transform: scale(0.97);
+  }
+
+  /* Micro-translation for list row hovers */
+  .hover-shift-x {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .hover-shift-x:hover {
+    transform: translateX(3px);
+  }
+
+  /* Sidebar Icon Reactive Scale */
+  [data-sidebar="menu-button"] svg {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+  }
+  
+  [data-sidebar="menu-button"]:hover svg {
+    transform: scale(1.1) rotate(2deg);
+  }
 }
 
-/* Inter variant features (cv11 = sharper digits, ss01 = alternate single-storey 'a').
-   Applied at root so all descendants inherit.
-   NOTE: This intentionally overrides the @layer base html { ... } rule earlier in this file.
-   Geist-specific features (cv02/cv03/cv04) are dropped since we're using Inter, not Geist.
-   When components fully migrate off Geist in Phase 2+, the older @layer base rule can be removed. */
+/* Inter variant features */
 html {
   font-feature-settings: 'cv11', 'ss01';
 }

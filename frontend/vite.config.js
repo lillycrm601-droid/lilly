@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [sentrySvelteKit({
       org: "micropyramid-fa",
-      project: "bottlecrm-app",
+      project: "lillycrm-app",
       sourceMapsUploadOptions: {
         authToken: env.SENTRY_AUTH_TOKEN
       },

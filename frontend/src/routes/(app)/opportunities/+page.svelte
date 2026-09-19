@@ -1186,7 +1186,7 @@
 </script>
 
 <svelte:head>
-  <title>Opportunities - BottleCRM</title>
+  <title>Opportunities - LillyCRM</title>
 </svelte:head>
 
 <div class="flex flex-col">

@@ -51,7 +51,7 @@ class TestPATAuthentication:
             self.auth.authenticate(req)
 
     def test_unknown_pat_raises(self):
-        req = self.factory.get("/api/leads/", HTTP_AUTHORIZATION="Bearer bcrm_pat_nope")
+        req = self.factory.get("/api/leads/", HTTP_AUTHORIZATION="Bearer lcrm_pat_nope")
         with pytest.raises(AuthenticationFailed):
             self.auth.authenticate(req)
 

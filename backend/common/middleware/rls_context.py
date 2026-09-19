@@ -121,6 +121,10 @@ class RequireOrgContext:
         # Public CSAT survey link (Tier 2 csat) — anonymous, sets RLS
         # context manually inside the view from the survey's own org_id.
         "/api/public/csat/",
+        # Bolna Voice AI Webhook
+        "/api/public/leads/bolna-webhook/",
+        # Public Lead Ingestion
+        "/api/leads/create-from-site/",
     ]
 
     def __init__(self, get_response):

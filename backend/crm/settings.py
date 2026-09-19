@@ -98,6 +98,9 @@ DATABASES = {
         "PASSWORD": os.environ.get("DBPASSWORD", "postgres"),
         "HOST": os.environ.get("DBHOST", "localhost"),
         "PORT": os.environ.get("DBPORT", "5432"),
+        # Neon / managed Postgres require SSL. Set DBSSLMODE=require for Neon,
+        # keep default (prefer) for local Docker / Render Postgres.
+        "OPTIONS": {"sslmode": os.environ.get("DBSSLMODE", "prefer")},
     }
 }
 
@@ -134,6 +137,15 @@ EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
 )
 
+# SMTP delivery (Brevo free tier: smtp-relay.brevo.com:587 + SMTP key).
+# Used automatically when EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend.
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True").lower() == "true"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+EMAIL_TIMEOUT = int(os.environ.get("EMAIL_TIMEOUT", "15"))
+
 AUTH_USER_MODEL = "common.User"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -163,6 +175,9 @@ if "django_ses" in EMAIL_BACKEND:
 # celery Tasks
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
+CELERY_TASK_ALWAYS_EAGER = os.environ.get("CELERY_TASK_ALWAYS_EAGER", "True").lower() == "true"
+CELERY_ALWAYS_EAGER = CELERY_TASK_ALWAYS_EAGER
+
 
 
 LOGGING = {
@@ -239,7 +254,7 @@ LOGGING = {
     },
 }
 
-APPLICATION_NAME = "bottlecrm"
+APPLICATION_NAME = "lillycrm"
 
 SETTINGS_EXPORT = ["APPLICATION_NAME"]
 
@@ -259,7 +274,7 @@ REST_FRAMEWORK = {
 
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "BottleCRM API",
+    "TITLE": "LillyCRM API",
     "DESCRIPTION": "Open source CRM application",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
@@ -354,3 +369,18 @@ SWAGGER_ROOT_URL = os.environ.get("SWAGGER_ROOT_URL", "http://localhost:8000")
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
 GOOGLE_REDIRECT_URI = os.environ.get("GOOGLE_REDIRECT_URI", "")
+
+# Bolna Voice AI Call Integration Settings
+BOLNA_API_KEY = os.environ.get("BOLNA_API_KEY", "")
+BOLNA_AGENT_ID = os.environ.get("BOLNA_AGENT_ID", "")
+BOLNA_FROM_PHONE = os.environ.get("BOLNA_FROM_PHONE", "")
+
+# LLM API Keys for Lead Classification (transcript analysis)
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+
+# Celery local development settings (runs task inline without Redis broker)
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_TASK_EAGER_PROPAGATES = True
+
+

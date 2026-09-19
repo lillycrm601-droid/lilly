@@ -27,7 +27,7 @@ class ApiResponse<T> {
       'ApiResponse(success: $success, statusCode: $statusCode, message: $message)';
 }
 
-/// HTTP client for BottleCRM API
+/// HTTP client for LillyCRM API
 ///
 /// Handles authentication headers, organization context,
 /// and provides typed request methods.

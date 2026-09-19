@@ -111,7 +111,7 @@
 </script>
 
 <svelte:head>
-  <title>Approvals - BottleCRM</title>
+  <title>Approvals - LillyCRM</title>
 </svelte:head>
 
 <PageHeader title="Approvals">

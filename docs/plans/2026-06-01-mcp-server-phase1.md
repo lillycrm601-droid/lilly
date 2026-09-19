@@ -1,10 +1,10 @@
-# BottleCRM MCP Server — Phase 1 Implementation Plan
+# LillyCRM MCP Server — Phase 1 Implementation Plan
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 > **⚠️ PROJECT POLICY — NEVER COMMIT.** This repo's `CLAUDE.md` forbids Claude from running `git commit`/`git push`. The **Commit** steps below are written for the human engineer to run. When Claude executes this plan it must STOP at each commit step, summarize what changed, and let the user commit. Do not run any git history-mutating command.
 
-**Goal:** Ship a Personal Access Token (PAT) auth layer in the Django backend and a standalone Python FastMCP server (stdio) that lets a user connect their AI agent to BottleCRM with full CRUD over the existing REST API, acting as the token's owning user.
+**Goal:** Ship a Personal Access Token (PAT) auth layer in the Django backend and a standalone Python FastMCP server (stdio) that lets a user connect their AI agent to LillyCRM with full CRUD over the existing REST API, acting as the token's owning user.
 
 **Architecture:** The MCP server is a *thin REST client* — it never touches the DB. A new `PersonalAccessToken` model + `PATAuthentication` DRF class let an agent authenticate as a real user (inheriting their role + org + RLS). Six generic, entity-parameterized FastMCP tools (`crm_search/get/create/update/delete/action`) plus `crm_describe` call the DRF API over HTTP. All authorization stays in DRF.
 
@@ -64,7 +64,7 @@ class TestPersonalAccessToken:
         raw, pat = PersonalAccessToken.generate(
             profile=admin_profile, name="Claude Desktop"
         )
-        assert raw.startswith("bcrm_pat_")
+        assert raw.startswith("lcrm_pat_")
         # Raw token is NOT stored; only its sha256 hash
         assert pat.token_hash == hashlib.sha256(raw.encode()).hexdigest()
         assert pat.token_hash != raw
@@ -108,7 +108,7 @@ from common.base import BaseOrgModel
 
 def generate_pat_raw():
     """Return a new raw personal access token string."""
-    return f"bcrm_pat_{secrets.token_urlsafe(32)}"
+    return f"lcrm_pat_{secrets.token_urlsafe(32)}"
 
 
 class PersonalAccessToken(BaseOrgModel):
@@ -149,7 +149,7 @@ class PersonalAccessToken(BaseOrgModel):
             profile=profile,
             name=name,
             token_hash=cls.hash_token(raw),
-            token_prefix=raw[:13],  # bcrm_pat_ + 4 chars only — avoid persisting secret bytes
+            token_prefix=raw[:13],  # lcrm_pat_ + 4 chars only — avoid persisting secret bytes
             scopes=scopes or [],
             expires_at=expires_at,
         )
@@ -242,7 +242,7 @@ git commit -m "feat(mcp): enable RLS on personal_access_token"
 - Modify: `backend/crm/settings.py` (register the class FIRST in `DEFAULT_AUTHENTICATION_CLASSES`)
 - Test: `backend/common/tests/test_pat_auth.py`
 
-**Why first in the list:** JWT auth also reads `Authorization: Bearer …` and *raises* on a token it can't decode. `PATAuthentication` must run first and only *claim* tokens starting with `bcrm_pat_`, returning `None` for anything else so JWT/org-key still work.
+**Why first in the list:** JWT auth also reads `Authorization: Bearer …` and *raises* on a token it can't decode. `PATAuthentication` must run first and only *claim* tokens starting with `lcrm_pat_`, returning `None` for anything else so JWT/org-key still work.
 
 **Step 1: Write the failing test**
 
@@ -302,7 +302,7 @@ class TestPATAuthentication:
             self.auth.authenticate(req)
 
     def test_unknown_pat_raises(self):
-        req = self.factory.get("/api/leads/", HTTP_AUTHORIZATION="Bearer bcrm_pat_nope")
+        req = self.factory.get("/api/leads/", HTTP_AUTHORIZATION="Bearer lcrm_pat_nope")
         with pytest.raises(AuthenticationFailed):
             self.auth.authenticate(req)
 
@@ -335,11 +335,11 @@ from common.models import PersonalAccessToken
 
 logger = logging.getLogger(__name__)
 
-PAT_PREFIX = "bcrm_pat_"
+PAT_PREFIX = "lcrm_pat_"
 
 
 def _extract_raw(request):
-    """Pull a bcrm_pat_ token from Authorization: Bearer or Token header."""
+    """Pull a lcrm_pat_ token from Authorization: Bearer or Token header."""
     auth = request.headers.get("Authorization", "")
     if auth.startswith("Bearer "):
         candidate = auth[len("Bearer "):].strip()
@@ -396,7 +396,7 @@ class PATAuthenticationScheme(OpenApiAuthenticationExtension):
         return {
             "type": "http",
             "scheme": "bearer",
-            "description": "Personal access token (bcrm_pat_…) for agent/MCP access",
+            "description": "Personal access token (lcrm_pat_…) for agent/MCP access",
         }
 ```
 
@@ -549,7 +549,7 @@ class TestPATApi:
                            content_type="application/json", **auth_headers)
         assert resp.status_code == 201
         body = resp.json()
-        assert body["token"].startswith("bcrm_pat_")  # raw token present ONCE
+        assert body["token"].startswith("lcrm_pat_")  # raw token present ONCE
         # Subsequent list must NOT contain the raw token
         lst = client.get("/api/profile/tokens/", **auth_headers).json()
         assert all("token" not in t for t in lst["tokens"])
@@ -679,22 +679,22 @@ path("profile/tokens/<uuid:pk>/", PersonalAccessTokenDetailView.as_view(), name=
 
 **Files:**
 - Create: `mcp_server/pyproject.toml`
-- Create: `mcp_server/src/bcrm_mcp/__init__.py`
-- Create: `mcp_server/src/bcrm_mcp/config.py`
+- Create: `mcp_server/src/lcrm_mcp/__init__.py`
+- Create: `mcp_server/src/lcrm_mcp/config.py`
 - Create: `mcp_server/README.md`
 - Create: `mcp_server/tests/__init__.py`
 
 **Step 1:** `mcp_server/pyproject.toml`:
 ```toml
 [project]
-name = "bcrm-mcp"
+name = "lcrm-mcp"
 version = "0.1.0"
-description = "BottleCRM MCP server — connect your AI agent to BottleCRM"
+description = "LillyCRM MCP server — connect your AI agent to LillyCRM"
 requires-python = ">=3.11"
 dependencies = ["fastmcp>=2.0", "httpx>=0.27", "pydantic>=2.7"]
 
 [project.scripts]
-bcrm-mcp = "bcrm_mcp.server:main"
+lcrm-mcp = "lcrm_mcp.server:main"
 
 [dependency-groups]
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "respx>=0.21"]
@@ -717,46 +717,46 @@ class Settings:
 
     @classmethod
     def from_env(cls):
-        base = os.environ.get("BCRM_BASE_URL", "").rstrip("/")
-        token = os.environ.get("BCRM_TOKEN", "")
+        base = os.environ.get("LCRM_BASE_URL", "").rstrip("/")
+        token = os.environ.get("LCRM_TOKEN", "")
         if not base or not token:
-            raise SystemExit("BCRM_BASE_URL and BCRM_TOKEN env vars are required")
+            raise SystemExit("LCRM_BASE_URL and LCRM_TOKEN env vars are required")
         return cls(base_url=base, token=token)
 ```
 
 **Step 2:** `cd mcp_server && uv sync` → resolves deps, creates `.venv`.
 
-**Step 3: Commit** *(USER)* `chore(mcp): scaffold bcrm-mcp package`.
+**Step 3: Commit** *(USER)* `chore(mcp): scaffold lcrm-mcp package`.
 
 ---
 
 ### Task C2: HTTP client wrapper
 
 **Files:**
-- Create: `mcp_server/src/bcrm_mcp/client.py`
+- Create: `mcp_server/src/lcrm_mcp/client.py`
 - Test: `mcp_server/tests/test_client.py`
 
 **Step 1: Write failing test** (uses `respx` to mock httpx):
 ```python
 import httpx, pytest, respx
-from bcrm_mcp.client import CrmClient, CrmError
+from lcrm_mcp.client import CrmClient, CrmError
 
 
 @pytest.mark.asyncio
 async def test_get_sends_bearer_and_returns_json():
-    client = CrmClient("https://crm.example.com", "bcrm_pat_abc")
+    client = CrmClient("https://crm.example.com", "lcrm_pat_abc")
     with respx.mock:
         route = respx.get("https://crm.example.com/api/leads/").mock(
             return_value=httpx.Response(200, json={"results": []})
         )
         data = await client.get("/api/leads/")
     assert data == {"results": []}
-    assert route.calls.last.request.headers["Authorization"] == "Bearer bcrm_pat_abc"
+    assert route.calls.last.request.headers["Authorization"] == "Bearer lcrm_pat_abc"
 
 
 @pytest.mark.asyncio
 async def test_400_raises_crmerror_with_detail():
-    client = CrmClient("https://crm.example.com", "bcrm_pat_abc")
+    client = CrmClient("https://crm.example.com", "lcrm_pat_abc")
     with respx.mock:
         respx.post("https://crm.example.com/api/leads/").mock(
             return_value=httpx.Response(400, json={"name": ["This field is required."]})
@@ -812,12 +812,12 @@ class CrmClient:
 ### Task C3: Entity registry
 
 **Files:**
-- Create: `mcp_server/src/bcrm_mcp/entities.py`
+- Create: `mcp_server/src/lcrm_mcp/entities.py`
 - Test: `mcp_server/tests/test_entities.py`
 
 **Step 1: Test:**
 ```python
-from bcrm_mcp.entities import ENTITIES, resolve_path, EntityError
+from lcrm_mcp.entities import ENTITIES, resolve_path, EntityError
 import pytest
 
 
@@ -864,13 +864,13 @@ def resolve_path(entity, pk=None):
 ### Task C4: The 6 generic tools + `crm_describe`
 
 **Files:**
-- Create: `mcp_server/src/bcrm_mcp/tools.py`
+- Create: `mcp_server/src/lcrm_mcp/tools.py`
 - Test: `mcp_server/tests/test_tools.py`
 
 **Step 1: Write failing tests** (call the underlying functions directly with a fake client; the FastMCP wrapper is thin):
 ```python
 import pytest
-from bcrm_mcp import tools
+from lcrm_mcp import tools
 
 
 class FakeClient:
@@ -910,7 +910,7 @@ async def test_unknown_entity_rejected():
 
 **Step 2: fail. Step 3: Implement** `tools.py` (pure functions taking `client` first — registered onto FastMCP in C5):
 ```python
-from bcrm_mcp.entities import ENTITIES, resolve_path, EntityError
+from lcrm_mcp.entities import ENTITIES, resolve_path, EntityError
 
 MAX_LIMIT = 50
 
@@ -982,12 +982,12 @@ Add a focused unit test for `_extract_entity_fields` with a tiny inline OpenAPI 
 ### Task C5: FastMCP server entry point (stdio)
 
 **Files:**
-- Create: `mcp_server/src/bcrm_mcp/server.py`
+- Create: `mcp_server/src/lcrm_mcp/server.py`
 - Test: `mcp_server/tests/test_server_registration.py`
 
 **Step 1: Test** — assert all expected tools are registered:
 ```python
-from bcrm_mcp.server import build_server
+from lcrm_mcp.server import build_server
 
 def test_all_tools_registered():
     mcp = build_server()
@@ -1001,13 +1001,13 @@ def test_all_tools_registered():
 ```python
 from fastmcp import FastMCP
 
-from bcrm_mcp import tools
-from bcrm_mcp.client import CrmClient
-from bcrm_mcp.config import Settings
+from lcrm_mcp import tools
+from lcrm_mcp.client import CrmClient
+from lcrm_mcp.config import Settings
 
 
 def build_server(client=None):
-    mcp = FastMCP("BottleCRM")
+    mcp = FastMCP("LillyCRM")
     _client = client  # injected in tests; lazily built at runtime otherwise
 
     def get_client():
@@ -1085,16 +1085,16 @@ print(PersonalAccessToken.generate(p, 'smoke')[0])"
 
 # Terminal 2 — MCP server
 cd mcp_server
-BCRM_BASE_URL=http://localhost:8000 BCRM_TOKEN=bcrm_pat_… uv run bcrm-mcp
+LCRM_BASE_URL=http://localhost:8000 LCRM_TOKEN=lcrm_pat_… uv run lcrm-mcp
 ```
 Then connect from Claude Desktop using the config snippet in the README:
 ```json
 {
   "mcpServers": {
-    "bottlecrm": {
+    "lillycrm": {
       "command": "uvx",
-      "args": ["bcrm-mcp"],
-      "env": { "BCRM_BASE_URL": "http://localhost:8000", "BCRM_TOKEN": "bcrm_pat_…" }
+      "args": ["lcrm-mcp"],
+      "env": { "LCRM_BASE_URL": "http://localhost:8000", "LCRM_TOKEN": "lcrm_pat_…" }
     }
   }
 }
@@ -1210,7 +1210,7 @@ Before declaring done, confirm:
 ---
 
 ## Out of scope (Phase 2+, do NOT build now)
-- Streamable HTTP transport / hosted `mcp.bottlecrm.io`
+- Streamable HTTP transport / hosted `mcp.lillycrm.io`
 - OAuth 2.1 flow
 - Per-token throttling + scope enforcement (model field exists; enforcement deferred)
 - Named semantic action tools beyond the generic `crm_action`

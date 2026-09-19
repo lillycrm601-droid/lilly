@@ -83,7 +83,7 @@ wheels = [
 ]
 
 [[package]]
-name = "bcrm-mcp"
+name = "lcrm-mcp"
 version = "0.1.0"
 source = { editable = "../mcp_server" }
 dependencies = [
@@ -704,7 +704,7 @@ dependencies = [
 
 [package.optional-dependencies]
 mcp = [
-    { name = "bcrm-mcp" },
+    { name = "lcrm-mcp" },
 ]
 
 [package.dev-dependencies]
@@ -716,7 +716,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bcrm-mcp", marker = "extra == 'mcp'", editable = "../mcp_server" },
+    { name = "lcrm-mcp", marker = "extra == 'mcp'", editable = "../mcp_server" },
     { name = "cairocffi", specifier = ">=1.7.1" },
     { name = "celery", specifier = ">=5.6.2" },
     { name = "disposable-email-domains", specifier = ">=0.0.162" },

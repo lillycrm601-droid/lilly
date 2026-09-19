@@ -57,7 +57,7 @@ class LeadListView(APIView, LimitOffsetPagination):
                 "tags",
                 "assigned_to",
             )
-        ).order_by("-id")
+        ).order_by("-updated_at", "-id")
         if self.request.profile.role != "ADMIN" and not self.request.user.is_superuser:
             queryset = queryset.filter(
                 Q(assigned_to__in=[self.request.profile])

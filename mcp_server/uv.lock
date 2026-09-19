@@ -67,7 +67,7 @@ wheels = [
 ]
 
 [[package]]
-name = "bcrm-mcp"
+name = "lcrm-mcp"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

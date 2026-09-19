@@ -13,7 +13,7 @@ import { error, fail } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 import { apiRequest, buildQueryParams } from '$lib/api-helpers.js';
 
-const API_BASE_URL = `${env.PUBLIC_DJANGO_API_URL}/api`;
+const API_BASE_URL = `${"http://127.0.0.1:8000"}/api`;
 
 /**
  * Forward a multipart upload to Django, preserving the auth cookie.

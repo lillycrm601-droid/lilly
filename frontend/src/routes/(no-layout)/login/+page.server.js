@@ -104,7 +104,7 @@ async function handleOAuthCallback(code, returnedState, cookies) {
   try {
     // Exchange code for tokens via Django backend
     // The backend handles the actual token exchange with Google using the client secret
-    const apiUrl = publicEnv.PUBLIC_DJANGO_API_URL;
+    const apiUrl = "http://127.0.0.1:8000";
     console.log('Using API URL:', apiUrl);
     const response = await axios.post(
       `${apiUrl}/api/auth/google/callback/`,
@@ -198,7 +198,7 @@ export const actions = {
     }
 
     try {
-      const apiUrl = publicEnv.PUBLIC_DJANGO_API_URL;
+      const apiUrl = "http://127.0.0.1:8000";
       await axios.post(
         `${apiUrl}/api/auth/magic-link/request/`,
         { email },

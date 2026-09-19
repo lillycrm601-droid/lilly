@@ -1,5 +1,5 @@
 import pytest
-from bcrm_mcp.entities import ENTITIES, resolve_path, EntityError
+from lcrm_mcp.entities import ENTITIES, resolve_path, EntityError
 
 
 def test_known_entity_resolves_list_path():

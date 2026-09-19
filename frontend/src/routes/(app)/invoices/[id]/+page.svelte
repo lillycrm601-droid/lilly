@@ -251,7 +251,7 @@
 </script>
 
 <svelte:head>
-  <title>Invoice {invoice.invoiceNumber} | BottleCRM</title>
+  <title>Invoice {invoice.invoiceNumber} | LillyCRM</title>
 </svelte:head>
 
 <!-- Hidden Forms -->

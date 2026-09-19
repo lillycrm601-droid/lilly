@@ -1,4 +1,4 @@
-# BottleCRM
+# LillyCRM
 
 A modern, open-source CRM platform built with Django REST Framework and SvelteKit.
 
@@ -13,9 +13,9 @@ https://github.com/user-attachments/assets/f384f25e-ab52-4069-afaf-f8e2f1f3f0e7
 
 ## Overview
 
-BottleCRM is a full-featured Customer Relationship Management system designed for startups and small businesses. It combines a powerful Django REST API backend with a modern SvelteKit frontend, featuring multi-tenant architecture with PostgreSQL Row-Level Security (RLS) for enterprise-grade data isolation.
+LillyCRM is a full-featured Customer Relationship Management system designed for startups and small businesses. It combines a powerful Django REST API backend with a modern SvelteKit frontend, featuring multi-tenant architecture with PostgreSQL Row-Level Security (RLS) for enterprise-grade data isolation.
 
-**Try it free**: [bottlecrm.io](https://bottlecrm.io/)
+**Try it free**: [lillycrm.io](https://lillycrm.io/)
 
 ## Features
 
@@ -145,7 +145,7 @@ uv run celery -A crm worker --loglevel=INFO
 Let Claude, Cursor, Codex, Gemini, or any MCP client work in your CRM:
 
 1. In the app, go to **Settings → API Tokens** and create a personal access token (shown once).
-2. Register the `bcrm-mcp` server in your AI client, passing `BCRM_BASE_URL` (your API host, e.g. `http://localhost:8000`) and `BCRM_TOKEN` (the token). The token page shows ready-to-paste config for each client.
+2. Register the `lcrm-mcp` server in your AI client, passing `LCRM_BASE_URL` (your API host, e.g. `http://localhost:8000`) and `LCRM_TOKEN` (the token). The token page shows ready-to-paste config for each client.
 3. Restart the client and start asking.
 
 The agent authenticates **as you** and inherits your role, org and RLS scope — it can't see or do anything you can't. Full setup, the tool list, and the security model are in [`mcp_server/README.md`](mcp_server/README.md).
@@ -215,8 +215,8 @@ Django-CRM/
 │   │       └── (no-layout)/ # Auth pages (login, etc.)
 │   ├── static/            # Static assets
 │   └── Dockerfile         # Frontend dev container
-├── mcp_server/             # MCP server (bcrm-mcp) for AI agents
-│   └── src/bcrm_mcp/      # FastMCP tools over the REST API (stdio transport)
+├── mcp_server/             # MCP server (lcrm-mcp) for AI agents
+│   └── src/lcrm_mcp/      # FastMCP tools over the REST API (stdio transport)
 ├── docker/                 # Docker support files
 │   ├── backend/
 │   │   └── entrypoint.sh  # DB wait + migrate + runserver
@@ -229,7 +229,7 @@ Django-CRM/
 
 ## Multi-Tenancy & Security
 
-BottleCRM uses PostgreSQL Row-Level Security (RLS) to ensure complete data isolation between organizations. Every database query is automatically filtered by organization context, providing enterprise-grade security.
+LillyCRM uses PostgreSQL Row-Level Security (RLS) to ensure complete data isolation between organizations. Every database query is automatically filtered by organization context, providing enterprise-grade security.
 
 ```bash
 # Check RLS status

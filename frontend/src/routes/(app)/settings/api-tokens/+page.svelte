@@ -23,9 +23,9 @@
   let { data, form } = $props();
 
   const tokens = $derived(data.tokens || []);
-  // Real, ready-to-paste API host (e.g. https://api.bottlecrm.io). The MCP
-  // client appends /api/... itself, so this is exactly BCRM_BASE_URL.
-  const baseUrl = $derived(data.baseUrl || 'https://api.bottlecrm.io');
+  // Real, ready-to-paste API host (e.g. https://api.lillycrm.io). The MCP
+  // client appends /api/... itself, so this is exactly LCRM_BASE_URL.
+  const baseUrl = $derived(data.baseUrl || 'https://api.lillycrm.io');
 
   let formName = $state('');
   let formExpiresAt = $state('');
@@ -41,7 +41,7 @@
 
   // The just-created raw token if we have it, else a paste-your-token hint. We
   // can only ever show the real token in the same response that created it.
-  const tokenValue = $derived(form?.created?.token || 'bcrm_pat_…paste-your-token');
+  const tokenValue = $derived(form?.created?.token || 'lcrm_pat_…paste-your-token');
 
   /**
    * MCP clients we give a ready-to-paste config for. Claude Desktop, Cursor and
@@ -59,12 +59,12 @@
   function jsonConfig(base, token) {
     return `{
   "mcpServers": {
-    "bottlecrm": {
+    "lillycrm": {
       "command": "uvx",
-      "args": ["bcrm-mcp"],
+      "args": ["lcrm-mcp"],
       "env": {
-        "BCRM_BASE_URL": "${base}",
-        "BCRM_TOKEN": "${token}"
+        "LCRM_BASE_URL": "${base}",
+        "LCRM_TOKEN": "${token}"
       }
     }
   }
@@ -73,13 +73,13 @@
 
   /** @param {string} base @param {string} token */
   function tomlConfig(base, token) {
-    return `[mcp_servers.bottlecrm]
+    return `[mcp_servers.lillycrm]
 command = "uvx"
-args = ["bcrm-mcp"]
+args = ["lcrm-mcp"]
 
-[mcp_servers.bottlecrm.env]
-BCRM_BASE_URL = "${base}"
-BCRM_TOKEN = "${token}"`;
+[mcp_servers.lillycrm.env]
+LCRM_BASE_URL = "${base}"
+LCRM_TOKEN = "${token}"`;
   }
 
   const selectedClientMeta = $derived(
@@ -152,12 +152,12 @@ BCRM_TOKEN = "${token}"`;
 </script>
 
 <svelte:head>
-  <title>API Tokens - Settings - BottleCRM</title>
+  <title>API Tokens - Settings - LillyCRM</title>
 </svelte:head>
 
 <PageHeader
   title="API Tokens"
-  subtitle="Connect your AI agent to BottleCRM. Tokens act as you and inherit your role."
+  subtitle="Connect your AI agent to LillyCRM. Tokens act as you and inherit your role."
 />
 
 <div class="flex-1 p-4 md:p-6 lg:p-8">
@@ -389,7 +389,7 @@ BCRM_TOKEN = "${token}"`;
             {#if form?.created?.token}
               The token below is yours — it's shown only this once.
             {:else}
-              Replace <code class="font-mono text-xs">BCRM_TOKEN</code> with a token you created above.
+              Replace <code class="font-mono text-xs">LCRM_TOKEN</code> with a token you created above.
             {/if}
           </p>
 

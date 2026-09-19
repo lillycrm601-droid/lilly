@@ -1,8 +1,8 @@
 import pytest
 
-from bcrm_mcp.auth import AuthError
-from bcrm_mcp.config import Settings
-from bcrm_mcp.server import ClientResolver
+from lcrm_mcp.auth import AuthError
+from lcrm_mcp.config import Settings
+from lcrm_mcp.server import ClientResolver
 
 
 def _http_settings():
@@ -11,7 +11,7 @@ def _http_settings():
 
 def _stdio_settings():
     return Settings(
-        base_url="https://crm.example.com", token="bcrm_pat_srv", transport="stdio"
+        base_url="https://crm.example.com", token="lcrm_pat_srv", transport="stdio"
     )
 
 
@@ -77,14 +77,14 @@ def test_stdio_builds_once_and_reuses():
     a = r.get()
     b = r.get()
     assert a is b  # shared client, cached
-    assert a._headers["Authorization"] == "Bearer bcrm_pat_srv"
+    assert a._headers["Authorization"] == "Bearer lcrm_pat_srv"
     assert calls["n"] == 1  # settings loaded exactly once
 
 
 def test_build_http_app_returns_mountable_asgi_app_with_lifespan():
     # The object the Django mount uses. Must not require env vars, and must
     # expose a lifespan (propagating it is the documented mount requirement).
-    from bcrm_mcp.server import build_http_app
+    from lcrm_mcp.server import build_http_app
 
     app = build_http_app("https://crm.example.com", path="/")
     assert app.lifespan is not None

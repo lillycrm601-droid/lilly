@@ -1,4 +1,4 @@
-from bcrm_mcp.entities import (
+from lcrm_mcp.entities import (
     CONFIRM_REQUIRED_ACTIONS,
     ENTITIES,
     EntityError,

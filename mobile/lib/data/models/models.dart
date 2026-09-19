@@ -1,4 +1,4 @@
-/// BottleCRM Data Models
+/// LillyCRM Data Models
 /// Barrel export for all model files
 library;
 

@@ -1,8 +1,8 @@
-from bcrm_mcp.auth import extract_bearer_token
+from lcrm_mcp.auth import extract_bearer_token
 
 
 def test_extracts_token():
-    assert extract_bearer_token({"authorization": "Bearer bcrm_pat_abc"}) == "bcrm_pat_abc"
+    assert extract_bearer_token({"authorization": "Bearer lcrm_pat_abc"}) == "lcrm_pat_abc"
 
 
 def test_scheme_is_case_insensitive():

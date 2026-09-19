@@ -1,4 +1,4 @@
-"""Personal Access Token CRUD for the BottleCRM MCP server.
+"""Personal Access Token CRUD for the LillyCRM MCP server.
 
 A user manages ONLY their own tokens. Both list and revoke are filtered by
 ``org=request.profile.org`` AND ``profile=request.profile`` so another user's

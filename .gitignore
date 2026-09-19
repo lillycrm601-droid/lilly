@@ -57,6 +57,7 @@ docs/build/
 frontend/node_modules/
 frontend/.svelte-kit/
 frontend/build/
+frontend/.pnpm-store/
 frontend/.env
 frontend/.env.local
 frontend/package-lock.json

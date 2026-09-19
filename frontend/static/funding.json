@@ -17,10 +17,10 @@
   "projects": [
     {
       "guid": "startup-crm",
-      "name": "BottleCRM",
-      "description": "BottleCRM is a dynamic, SaaS CRM platform designed to streamline the entire CRM needs of startups and enterprises. Built with modern web technologies including SvelteKit, Svelte 5, and Prisma, it offers a seamless experience for users through robust role-based access control (RBAC). Each user role is equipped with tailored functionalities to enhance efficiency, engagement, and management, ensuring a streamlined and secure business process.",
+      "name": "LillyCRM",
+      "description": "LillyCRM is a dynamic, SaaS CRM platform designed to streamline the entire CRM needs of startups and enterprises. Built with modern web technologies including SvelteKit, Svelte 5, and Prisma, it offers a seamless experience for users through robust role-based access control (RBAC). Each user role is equipped with tailored functionalities to enhance efficiency, engagement, and management, ensuring a streamlined and secure business process.",
       "webpageUrl": {
-        "url": "https://bottlecrm.io",
+        "url": "https://lillycrm.io",
         "wellKnown": ""
       },
       "repositoryUrl": {
@@ -70,7 +70,7 @@
         "guid": "monthly-supporter",
         "status": "active",
         "name": "Monthly Supporter",
-        "description": "Monthly support to help maintain and improve BottleCRM with regular updates, bug fixes, and new features.",
+        "description": "Monthly support to help maintain and improve LillyCRM with regular updates, bug fixes, and new features.",
         "amount": 25,
         "currency": "USD",
         "frequency": "monthly",
@@ -80,7 +80,7 @@
         "guid": "yearly-backer",
         "status": "active",
         "name": "Yearly Backer",
-        "description": "Annual support for sustained development and maintenance of BottleCRM platform.",
+        "description": "Annual support for sustained development and maintenance of LillyCRM platform.",
         "amount": 250,
         "currency": "USD",
         "frequency": "yearly",
@@ -100,7 +100,7 @@
         "guid": "one-time-donation",
         "status": "active",
         "name": "One-time Contribution",
-        "description": "One-time donation to support BottleCRM development. Any amount is appreciated.",
+        "description": "One-time donation to support LillyCRM development. Any amount is appreciated.",
         "amount": 0,
         "currency": "USD",
         "frequency": "one-time",

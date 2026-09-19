@@ -1,3 +1,17 @@
+import dns from 'node:dns';
+
+// Intercept DNS lookups so that 'backend' resolves to 127.0.0.1 locally
+const originalLookup = dns.lookup;
+dns.lookup = function(hostname, options, callback) {
+  if (hostname === 'backend') {
+    const cb = typeof options === 'function' ? options : callback;
+    if (cb) {
+      return cb(null, '127.0.0.1', 4);
+    }
+  }
+  return originalLookup.call(dns, hostname, options, callback);
+};
+
 import {sequence} from '@sveltejs/kit/hooks';
 import * as Sentry from '@sentry/sveltekit';
 /**
@@ -12,9 +26,9 @@ import * as Sentry from '@sentry/sveltekit';
 
 import { redirect } from '@sveltejs/kit';
 import axios from 'axios';
-import { env } from '$env/dynamic/public';
-
-const API_BASE_URL = `${env.PUBLIC_DJANGO_API_URL}/api`;
+// Server-side hooks run inside the frontend container, where localhost:8000
+// does not resolve to the backend. Use the Docker service name instead.
+const API_BASE_URL = 'http://127.0.0.1:8000/api';
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**

@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: BottleCRM API
+  title: LillyCRM API
   version: 1.0.0
   description: Open source CRM application
 paths:

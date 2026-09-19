@@ -1,4 +1,4 @@
-# BottleCRM Mobile
+# LillyCRM Mobile
 
 <div align="center">
 
@@ -8,15 +8,15 @@
 ![iOS](https://img.shields.io/badge/iOS-11.0+-000000?style=for-the-badge&logo=ios&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-[![Get it on Google Play](https://img.shields.io/badge/Get%20it%20on-Google%20Play-black?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=io.bottlecrm)
+[![Get it on Google Play](https://img.shields.io/badge/Get%20it%20on-Google%20Play-black?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=io.lillycrm)
 
 </div>
 
-A modern, feature-rich Flutter CRM application for startups and enterprises. Built with a scalable architecture, BottleCRM Mobile provides comprehensive customer relationship management capabilities with multi-tenant support, real-time synchronization, and intuitive user experience.
+A modern, feature-rich Flutter CRM application for startups and enterprises. Built with a scalable architecture, LillyCRM Mobile provides comprehensive customer relationship management capabilities with multi-tenant support, real-time synchronization, and intuitive user experience.
 
 ## 🚀 Overview
 
-BottleCRM Mobile is designed to streamline your sales and customer management processes with:
+LillyCRM Mobile is designed to streamline your sales and customer management processes with:
 - **Multi-tenant Architecture**: Organization-based data isolation and role management
 - **Offline-First Design**: Local caching with smart synchronization
 - **Modern UI/UX**: Material Design 3 with adaptive layouts
@@ -78,9 +78,9 @@ BottleCRM Mobile is designed to streamline your sales and customer management pr
 
 <div align="center">
 
-[![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=io.bottlecrm)
+[![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=io.lillycrm)
 
-*Package ID: `io.bottlecrm`*
+*Package ID: `io.lillycrm`*
 
 </div>
 
@@ -90,8 +90,8 @@ BottleCRM Mobile is designed to streamline your sales and customer management pr
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/bottlecrm_mobile_v2.git
-   cd bottlecrm_mobile_v2
+   git clone https://github.com/your-username/lillycrm_mobile_v2.git
+   cd lillycrm_mobile_v2
    ```
 
 2. **Install Flutter dependencies**:
@@ -136,7 +136,7 @@ BottleCRM Mobile is designed to streamline your sales and customer management pr
 #### Environment Configuration
 The app automatically switches between environments:
 - **Debug builds**: Uses development API (ngrok URL)
-- **Release builds**: Uses production API (bottlecrm.io)
+- **Release builds**: Uses production API (lillycrm.io)
 
 You can modify URLs in `lib/config/api_config.dart`
 
@@ -226,7 +226,7 @@ flutter build ios --debug --simulator
 
 The app uses different API endpoints based on build type:
 - **Debug builds**: Development server (ngrok tunnel)
-- **Release builds**: Production API (`https://api.bottlecrm.io`)
+- **Release builds**: Production API (`https://api.lillycrm.io`)
 
 Build configurations are managed in:
 - `lib/config/api_config.dart` - API endpoint configuration
@@ -235,7 +235,7 @@ Build configurations are managed in:
 
 ## 🏗 Architecture
 
-BottleCRM Mobile follows a robust, scalable architecture designed for enterprise applications:
+LillyCRM Mobile follows a robust, scalable architecture designed for enterprise applications:
 
 ### Core Architecture Patterns
 
@@ -319,7 +319,7 @@ The application uses environment-based API URLs configured in `lib/config/api_co
 static const String _developmentUrl = 'https://b2ad5166b831.ngrok-free.app';
 
 // Production (release builds) 
-static const String _productionUrl = 'https://api.bottlecrm.io';
+static const String _productionUrl = 'https://api.lillycrm.io';
 ```
 
 **Environment Detection**: Automatic switching based on `kDebugMode` flag
@@ -522,7 +522,7 @@ docs(readme): update installation instructions
 ```
 MIT License
 
-Copyright (c) 2024 BottleCRM
+Copyright (c) 2024 LillyCRM
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -546,15 +546,15 @@ SOFTWARE.
 ## 🌟 Support
 
 - ** Documentation**: [CLAUDE.md](CLAUDE.md) for detailed architecture information
-- **🐛 Issues**: [GitHub Issues](https://github.com/your-username/bottlecrm_mobile_v2/issues) for bug reports
-- **💬 Discussions**: [GitHub Discussions](https://github.com/your-username/bottlecrm_mobile_v2/discussions) for questions
+- **🐛 Issues**: [GitHub Issues](https://github.com/your-username/lillycrm_mobile_v2/issues) for bug reports
+- **💬 Discussions**: [GitHub Discussions](https://github.com/your-username/lillycrm_mobile_v2/discussions) for questions
 - **🔥 Firebase Setup**: [FIREBASE_SETUP.md](FIREBASE_SETUP.md) for Firebase configuration
 
 ---
 
 <div align="center">
 
-**BottleCRM Mobile** - Free CRM for startups and enterprises
+**LillyCRM Mobile** - Free CRM for startups and enterprises
 
 Made with ❤️ using Flutter
 

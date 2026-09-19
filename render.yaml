@@ -1,0 +1,125 @@
+# Render Blueprint — deploys LillyCRM backend in one click.
+# Dashboard → New + → Blueprint → connect repo → Apply.
+# Database is Neon (free 3GB) — create at neon.tech, paste the 5 DB vars below.
+# Frontend is deployed separately on Vercel (frontend/ uses adapter-vercel).
+# Redis (Celery broker) is free Upstash — paste its URL into CELERY_* below
+# after first deploy (or leave empty: settings default to eager/inline tasks).
+
+services:
+  # Django API (Gunicorn). Free plan: 512MB RAM, sleeps after 15 min idle.
+  - type: web
+    name: lilly-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: /bin/bash /entrypoint.prod.sh
+    healthCheckPath: /admin/login/
+    autoDeploy: true
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ENV_TYPE
+        value: dev # must stay "dev": "prod" requires AWS/SENTRY (see crm/server_settings.py)
+      # ---- Neon Postgres (neon.tech → project → Connection Details) ----
+      - key: DBNAME
+        sync: false # e.g. neondb
+      - key: DBUSER
+        sync: false # e.g. neondb_owner
+      - key: DBPASSWORD
+        sync: false
+      - key: DBHOST
+        sync: false # e.g. ep-xxxx-xxxx.us-east-2.aws.neon.tech
+      - key: DBPORT
+        value: "5432"
+      - key: DBSSLMODE
+        value: require # Neon mandates SSL
+      - key: ALLOWED_HOSTS
+        value: .onrender.com
+      - key: CORS_ALLOW_ALL
+        value: "True" # tighten to False + CORS_ALLOWED_ORIGINS after frontend URL is known
+      # ---- Brevo free SMTP (300 emails/day) ----
+      - key: EMAIL_BACKEND
+        value: django.core.mail.backends.smtp.EmailBackend
+      - key: EMAIL_HOST
+        value: smtp-relay.brevo.com
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USE_TLS
+        value: "True"
+      - key: EMAIL_HOST_USER
+        sync: false # Brevo login email
+      - key: EMAIL_HOST_PASSWORD
+        sync: false # Brevo SMTP key (xsmtpsib-...)
+      - key: DEFAULT_FROM_EMAIL
+        sync: false # must be a Brevo-verified sender
+      - key: ADMIN_EMAIL
+        value: admin@localhost
+      - key: ADMIN_PASSWORD
+        generateValue: true # change after first login (check deploy logs for the value)
+      # ---- fill in after first deploy (Dashboard → service → Environment) ----
+      - key: DOMAIN_NAME
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false
+      - key: CELERY_BROKER_URL
+        sync: false # free Upstash Redis URL, e.g. redis://default:...@...:6379
+      - key: CELERY_RESULT_BACKEND
+        sync: false # same Upstash Redis URL
+
+  # Celery worker (background emails + scheduled beat tasks run via beat_schedule).
+  # Shares the 750 free hrs/month pool with the backend — suspend this service
+  # if you run out of hours (settings default to inline/eager tasks anyway).
+  - type: worker
+    name: lilly-worker
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: celery -A crm worker --loglevel=info --concurrency=1
+    autoDeploy: true
+    envVars:
+      - key: SECRET_KEY
+        sync: false # MUST equal lilly-backend's SECRET_KEY (JWT signing) — copy it over
+      - key: DEBUG
+        value: "False"
+      - key: ENV_TYPE
+        value: dev
+      # ---- same Neon values as backend ----
+      - key: DBNAME
+        sync: false
+      - key: DBUSER
+        sync: false
+      - key: DBPASSWORD
+        sync: false
+      - key: DBHOST
+        sync: false
+      - key: DBPORT
+        value: "5432"
+      - key: DBSSLMODE
+        value: require
+      # ---- same Brevo values as backend ----
+      - key: EMAIL_BACKEND
+        value: django.core.mail.backends.smtp.EmailBackend
+      - key: EMAIL_HOST
+        value: smtp-relay.brevo.com
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USE_TLS
+        value: "True"
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
+      - key: CELERY_BROKER_URL
+        sync: false # same Upstash Redis URL as backend
+      - key: CELERY_RESULT_BACKEND
+        sync: false # same Upstash Redis URL as backend

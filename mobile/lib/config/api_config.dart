@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// API Configuration for BottleCRM
+/// API Configuration for LillyCRM
 ///
 /// Provides centralized configuration for API endpoints.
 /// Update [_developmentUrl] with your ngrok URL for development.
@@ -13,7 +13,7 @@ class ApiConfig {
   static const String _developmentUrl = 'https://msi-8000.rcdev.in';
 
   /// Production API URL
-  static const String _productionUrl = 'https://api.bottlecrm.io';
+  static const String _productionUrl = 'https://api.lillycrm.io';
 
   /// Get the current base URL based on build mode
   static String get baseUrl => kDebugMode ? _developmentUrl : _productionUrl;

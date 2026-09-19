@@ -34,7 +34,7 @@
 </script>
 
 <svelte:head>
-  <title>Reopen Policy - Settings - BottleCRM</title>
+  <title>Reopen Policy - Settings - LillyCRM</title>
 </svelte:head>
 
 <PageHeader

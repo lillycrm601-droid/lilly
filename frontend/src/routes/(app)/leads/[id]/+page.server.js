@@ -68,5 +68,21 @@ export const actions = {
         error: /** @type {any} */ (err)?.message || 'Failed to save custom fields'
       });
     }
+  },
+
+  triggerCall: async ({ params, locals, cookies }) => {
+    try {
+      const response = await apiRequest(
+        `/leads/${params.id}/trigger-call/`,
+        { method: 'POST' },
+        { cookies, org: locals.org }
+      );
+      return { success: true, message: response.message };
+    } catch (err) {
+      console.error('Trigger Bolna call error:', err);
+      return fail(400, {
+        error: /** @type {any} */ (err)?.message || 'Failed to trigger Bolna call'
+      });
+    }
   }
 };

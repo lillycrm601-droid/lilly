@@ -1,6 +1,7 @@
 from django.urls import include, path
 
 from cases.csat_views import PublicCsatView
+from leads.views.bolna_webhook import BolnaWebhookView
 from tasks.urls import board_urlpatterns
 
 app_name = "common_urls"
@@ -31,5 +32,11 @@ urlpatterns = [
     # link with no auth context.
     path(
         "public/csat/<str:token>/", PublicCsatView.as_view(), name="public_csat"
+    ),
+    # Public Bolna Webhook
+    path(
+        "public/leads/bolna-webhook/",
+        BolnaWebhookView.as_view(),
+        name="public_bolna_webhook",
     ),
 ]

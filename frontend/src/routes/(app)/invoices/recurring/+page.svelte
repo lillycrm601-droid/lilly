@@ -866,7 +866,7 @@
             variant="outline"
             size="sm"
             onclick={handleToggle}
-            class={selectedRecurring.isActive ? 'text-orange-600' : 'text-green-600'}
+            class={selectedRecurring.isActive ? 'text-[var(--primary)]' : 'text-[var(--text-secondary)]'}
           >
             {#if selectedRecurring.isActive}
               <svg

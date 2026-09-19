@@ -1,10 +1,10 @@
-# BottleCRM: Free and Open Source Customer Relationship Management
+# LillyCRM: Free and Open Source Customer Relationship Management
 
 <div align="center">
   <h3>Powerful, Modern Multi-Tenant CRM for Everyone</h3>
 </div>
 
-BottleCRM is a free, open-source Customer Relationship Management solution designed to help small and medium businesses effectively manage their customer relationships. Built with modern technologies and enterprise-grade multi-tenancy, it offers a comprehensive set of features without the enterprise price tag.
+LillyCRM is a free, open-source Customer Relationship Management solution designed to help small and medium businesses effectively manage their customer relationships. Built with modern technologies and enterprise-grade multi-tenancy, it offers a comprehensive set of features without the enterprise price tag.
 
 ## ✨ Key Highlights
 
@@ -98,7 +98,7 @@ pnpm install
 
 ```env
 # Database Configuration
-DATABASE_URL="postgresql://postgres:password@localhost:5432/bottlecrm?schema=public"
+DATABASE_URL="postgresql://postgres:password@localhost:5432/lillycrm?schema=public"
 
 # JWT Secret (required for authentication)
 # Generate a secure secret using openssl:
@@ -222,7 +222,7 @@ We welcome contributions of all kinds! See our [CONTRIBUTING.md](CONTRIBUTING.md
 
 ## 📄 License
 
-BottleCRM is open source software [licensed as MIT](LICENSE).
+LillyCRM is open source software [licensed as MIT](LICENSE).
 
 ---
 

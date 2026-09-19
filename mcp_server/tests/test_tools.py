@@ -1,5 +1,5 @@
 import pytest
-from bcrm_mcp import tools
+from lcrm_mcp import tools
 
 
 class FakeClient:

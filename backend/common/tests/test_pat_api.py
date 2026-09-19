@@ -45,7 +45,7 @@ class TestPATApi:
         resp = admin_client.post(self.LIST_URL, {"name": "Claude"}, format="json")
         assert resp.status_code == 201, resp.content
         body = resp.json()
-        assert body["token"].startswith("bcrm_pat_")
+        assert body["token"].startswith("lcrm_pat_")
         assert body["error"] is False
         assert "token_hash" not in body
 

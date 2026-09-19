@@ -106,7 +106,7 @@
 </script>
 
 <svelte:head>
-  <title>Organization Settings - BottleCRM</title>
+  <title>Organization Settings - LillyCRM</title>
 </svelte:head>
 
 <PageHeader title="Organization Settings" subtitle="Manage your organization preferences">

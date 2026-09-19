@@ -161,3 +161,121 @@ def create_lead_from_file(validated_rows, invalid_rows, user_id, source, company
                     lead.save()
                 except Exception:
                     pass
+
+
+@shared_task
+def trigger_bolna_call(lead_id, org_id):
+    """
+    Task to trigger an immediate AI Voice call using Bolna API.
+    """
+    import requests
+    from common.tasks import set_rls_context
+    from leads.models import Lead
+    from django.contrib.contenttypes.models import ContentType
+    from common.models import Comment
+
+    set_rls_context(org_id)
+    try:
+        lead = Lead.objects.get(id=lead_id)
+    except Lead.DoesNotExist:
+        logger.error(f"Lead with id {lead_id} not found in org {org_id}.")
+        return False
+
+    api_key = getattr(settings, "BOLNA_API_KEY", "")
+    agent_id = getattr(settings, "BOLNA_AGENT_ID", "")
+    from_phone = getattr(settings, "BOLNA_FROM_PHONE", "")
+
+    is_simulation = False
+    if not api_key or not agent_id:
+        is_simulation = True
+        api_key = "sandbox_api_key"
+        agent_id = "sandbox_agent_id"
+
+    recipient_phone = lead.phone
+    if not recipient_phone:
+        logger.warning(f"Lead {lead_id} does not have a phone number. Skipping call trigger.")
+        return False
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    
+    payload = {
+        "agent_id": agent_id,
+        "recipient_phone_number": recipient_phone,
+        "from_phone_number": from_phone or None,
+        "user_data": {
+            "lead_id": str(lead.id),
+            "org_id": str(org_id),
+            "first_name": lead.first_name or "",
+            "last_name": lead.last_name or "",
+            "company_name": lead.company_name or "",
+        }
+    }
+
+    if is_simulation:
+        execution_id = "sandbox-execution-12345"
+        logger.info(f"Simulating Bolna call trigger for lead {lead_id} in sandbox mode.")
+        lead_content_type = ContentType.objects.get_for_model(Lead)
+        Comment.objects.create(
+            content_type=lead_content_type,
+            object_id=lead.id,
+            comment=f"Initiated immediate Bolna AI call. Execution ID: {execution_id}.",
+            org=lead.org,
+        )
+
+        import threading
+        import time
+        
+        def run_callback_simulation():
+            time.sleep(5)
+            # Call the local bolna-webhook endpoint
+            webhook_url = "http://127.0.0.1:8000/api/public/leads/bolna-webhook/"
+            payload = {
+                "status": "completed",
+                "call_duration": 42,
+                "user_data": {
+                    "lead_id": str(lead.id),
+                    "org_id": str(org_id)
+                },
+                "transcript": (
+                    "Assistant: Hello! I am Lilly, an AI assistant calling from SaaSify. Is this Alex?\n"
+                    "Lead: Yes, it is. How can I help you?\n"
+                    "Assistant: Awesome! I see you requested an enterprise CRM demo. Are you looking to migrate from Salesforce or build a new pipeline?\n"
+                    "Lead: We are actually looking to migrate a team of 25 sales reps. We need custom fields and RLS security.\n"
+                    "Assistant: That's a perfect fit. LillyCRM has robust row-level security and custom fields built-in. Would you like a sales manager to reach out today?\n"
+                    "Lead: Yes please, that would be great.\n"
+                    "Assistant: Perfect! I've marked your lead as a hot lead. Have a wonderful day!"
+                )
+            }
+            try:
+                requests.post(webhook_url, json=payload, timeout=10)
+            except Exception as e:
+                logger.error(f"Failed to post sandbox webhook simulation: {e}")
+
+        threading.Thread(target=run_callback_simulation, daemon=True).start()
+        return True
+
+    url = "https://api.bolna.ai/call"
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=15)
+        if response.status_code in [200, 201]:
+            res_data = response.json()
+            execution_id = res_data.get("execution_id") or res_data.get("id") or "N/A"
+            logger.info(f"Successfully triggered Bolna call for lead {lead_id}. Execution ID: {execution_id}")
+            lead_content_type = ContentType.objects.get_for_model(Lead)
+            Comment.objects.create(
+                content_type=lead_content_type,
+                object_id=lead.id,
+                comment=f"Initiated immediate Bolna AI call. Execution ID: {execution_id}.",
+                org=lead.org,
+            )
+            return True
+        else:
+            logger.error(f"Failed to trigger Bolna call. Status: {response.status_code}. Response: {response.text}")
+            return False
+    except Exception as e:
+        logger.error(f"Error calling Bolna API: {e}")
+        return False
+

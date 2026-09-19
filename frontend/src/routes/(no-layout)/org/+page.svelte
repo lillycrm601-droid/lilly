@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>Select Organization | BottleCRM</title>
+  <title>Select Organization | LillyCRM</title>
 </svelte:head>
 
 <div class="flex min-h-screen flex-col bg-[var(--surface-sunken)]">
@@ -20,8 +20,8 @@
   <header class="border-b border-[var(--border-default)] bg-[var(--surface-default)]">
     <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
       <div class="flex items-center gap-3">
-        <img src={imgLogo} alt="BottleCRM" class="h-8 w-auto" />
-        <span class="text-lg font-semibold text-[var(--text-primary)]">BottleCRM</span>
+        <img src={imgLogo} alt="LillyCRM" class="h-8 w-auto" />
+        <span class="text-lg font-semibold text-[var(--text-primary)]">LillyCRM</span>
       </div>
       <a
         href="/logout"
@@ -127,7 +127,7 @@
           </div>
           <h3 class="text-lg font-semibold text-[var(--text-primary)]">No organizations yet</h3>
           <p class="mt-2 text-[var(--text-secondary)]">
-            Create your first organization to get started with BottleCRM
+            Create your first organization to get started with LillyCRM
           </p>
           <a
             href="/org/new"

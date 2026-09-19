@@ -886,7 +886,7 @@ class CustomFieldDefinition(BaseModel):
 
 def generate_pat_raw():
     """Return a new raw personal access token string."""
-    return f"bcrm_pat_{secrets.token_urlsafe(32)}"
+    return f"lcrm_pat_{secrets.token_urlsafe(32)}"
 
 
 class PersonalAccessToken(BaseOrgModel):

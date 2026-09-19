@@ -13,7 +13,7 @@ class TestPersonalAccessToken:
         raw, pat = PersonalAccessToken.generate(
             profile=admin_profile, name="Claude Desktop"
         )
-        assert raw.startswith("bcrm_pat_")
+        assert raw.startswith("lcrm_pat_")
         assert pat.token_hash == hashlib.sha256(raw.encode()).hexdigest()
         assert pat.token_hash != raw
         assert pat.token_prefix and raw.startswith(pat.token_prefix)

@@ -43,7 +43,7 @@
 </script>
 
 <svelte:head>
-  <title>Dashboard - BottleCRM</title>
+  <title>Dashboard - LillyCRM</title>
 </svelte:head>
 
 <div class="min-h-screen">

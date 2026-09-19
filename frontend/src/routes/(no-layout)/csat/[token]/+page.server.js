@@ -9,7 +9,7 @@
 import { fail } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
 
-const API_BASE_URL = `${env.PUBLIC_DJANGO_API_URL}/api`;
+const API_BASE_URL = `${"http://127.0.0.1:8000"}/api`;
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params, fetch }) {

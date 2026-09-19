@@ -64,7 +64,7 @@
 </script>
 
 <svelte:head>
-  <title>Escalation Policies - Settings - BottleCRM</title>
+  <title>Escalation Policies - Settings - LillyCRM</title>
 </svelte:head>
 
 <PageHeader

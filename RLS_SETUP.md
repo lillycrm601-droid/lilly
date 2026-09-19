@@ -1,6 +1,6 @@
 # PostgreSQL Row-Level Security (RLS) Setup Guide
 
-This guide explains how to set up PostgreSQL with Row-Level Security for BottleCRM multi-tenancy.
+This guide explains how to set up PostgreSQL with Row-Level Security for LillyCRM multi-tenancy.
 
 ## Overview
 
@@ -20,7 +20,7 @@ RLS provides database-level tenant isolation. Every query automatically filters 
 sudo -u postgres psql
 
 -- Create the database
-CREATE DATABASE bottlecrm;
+CREATE DATABASE lillycrm;
 ```
 
 ---
@@ -46,11 +46,11 @@ SELECT usename, usesuper FROM pg_user WHERE usename = 'crm_user';
 ## 3. Grant Database Permissions
 
 ```sql
--- Connect to bottlecrm database
-\c bottlecrm
+-- Connect to lillycrm database
+\c lillycrm
 
 -- Grant connection rights
-GRANT CONNECT ON DATABASE bottlecrm TO crm_user;
+GRANT CONNECT ON DATABASE lillycrm TO crm_user;
 
 -- Grant schema privileges (required for migrations to create/alter tables)
 GRANT ALL ON SCHEMA public TO crm_user;
@@ -75,7 +75,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO crm_user;
 Set these environment variables for Django:
 
 ```bash
-export DBNAME=bottlecrm
+export DBNAME=lillycrm
 export DBUSER=crm_user
 export DBPASSWORD=crm_password
 export DBHOST=localhost
@@ -85,7 +85,7 @@ export DBPORT=5432
 Or in your `.env` file:
 
 ```env
-DBNAME=bottlecrm
+DBNAME=lillycrm
 DBUSER=crm_user
 DBPASSWORD=crm_password
 DBHOST=localhost

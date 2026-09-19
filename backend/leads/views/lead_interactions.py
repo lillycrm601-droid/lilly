@@ -252,8 +252,32 @@ class CreateLeadFromSite(APIView):
             )
 
         if api_setting and params.get("email"):
-            # user = User.objects.filter(is_admin=True, is_active=True).first()
             user = api_setting.created_by
+            from common.models import Profile
+            profile = Profile.objects.filter(user=user, org=api_setting.org, is_active=True).first()
+            email_val = params.get("email")
+
+            # Check if lead already exists in this organization to prevent unique constraint violation
+            existing_lead = Lead.objects.filter(email__iexact=email_val, org=api_setting.org).first()
+            if existing_lead:
+                existing_lead.description = params.get("message") or existing_lead.description
+                existing_lead.phone = params.get("phone") or existing_lead.phone
+                existing_lead.save()
+
+                # Trigger Bolna call on existing lead
+                from leads.tasks import trigger_bolna_call
+                trigger_bolna_call.delay(existing_lead.id, str(api_setting.org.id))
+
+                return Response(
+                    {
+                        "error": False,
+                        "message": "Lead Updated successfully.",
+                        "lead_id": str(existing_lead.id)
+                    },
+                    status=status.HTTP_200_OK,
+                )
+
+            # Create new lead
             lead = Lead.objects.create(
                 salutation=params.get(
                     "title"
@@ -263,41 +287,84 @@ class CreateLeadFromSite(APIView):
                 status="assigned",
                 source=api_setting.website,
                 description=params.get("message"),
-                email=params.get("email"),
+                email=email_val,
                 phone=params.get("phone"),
                 is_active=True,
                 created_by=user,
                 org=api_setting.org,
             )
-            lead.assigned_to.add(user)
-            # Send Email to Assigned Users
-            site_address = request.scheme + "://" + request.META["HTTP_HOST"]
-            send_lead_assigned_emails.delay(
-                lead.id, [user.id], site_address, str(api_setting.org.id)
-            )
-            # Create Contact
-            try:
-                contact = Contact.objects.create(
-                    first_name=params.get("first_name") or "",
-                    last_name=params.get("last_name") or "",
-                    email=params.get("email"),
-                    phone=params.get("phone"),
-                    description=params.get("message"),
-                    created_by=user,
-                    is_active=True,
-                    org=api_setting.org,
+            if profile:
+                lead.assigned_to.add(profile)
+
+            # Send Email to Assigned Users (requires profile IDs)
+            if profile:
+                site_address = request.scheme + "://" + request.META["HTTP_HOST"]
+                send_lead_assigned_emails.delay(
+                    lead.id, [profile.id], site_address, str(api_setting.org.id)
                 )
-                contact.assigned_to.add(user)
+
+            # Create or update Contact
+            try:
+                existing_contact = Contact.objects.filter(email__iexact=email_val, org=api_setting.org).first()
+                if existing_contact:
+                    contact = existing_contact
+                    contact.phone = params.get("phone") or contact.phone
+                    contact.description = params.get("message") or contact.description
+                    contact.save()
+                else:
+                    contact = Contact.objects.create(
+                        first_name=params.get("first_name") or "",
+                        last_name=params.get("last_name") or "",
+                        email=email_val,
+                        phone=params.get("phone"),
+                        description=params.get("message"),
+                        created_by=user,
+                        is_active=True,
+                        org=api_setting.org,
+                    )
+                    if profile:
+                        contact.assigned_to.add(profile)
 
                 lead.contacts.add(contact)
             except Exception:
                 pass
 
             return Response(
-                {"error": False, "message": "Lead Created sucessfully."},
+                {
+                    "error": False,
+                    "message": "Lead Created sucessfully.",
+                    "lead_id": str(lead.id)
+                },
                 status=status.HTTP_200_OK,
             )
         return Response(
             {"error": True, "message": "Invalid data"},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+
+class TriggerLeadCallView(APIView):
+    permission_classes = (IsAuthenticated, HasOrgContext)
+
+    def post(self, request, pk, *args, **kwargs):
+        from django.conf import settings
+        from leads.tasks import trigger_bolna_call
+
+        api_key = getattr(settings, "BOLNA_API_KEY", "")
+        agent_id = getattr(settings, "BOLNA_AGENT_ID", "")
+        is_simulation = not api_key or not agent_id
+
+        # Trigger the Celery task
+        trigger_bolna_call.delay(pk, str(request.profile.org.id))
+
+        message = (
+            "Bolna AI call simulated in sandbox mode (unconfigured keys)."
+            if is_simulation
+            else "Bolna AI call triggered successfully."
+        )
+
+        return Response(
+            {"error": False, "message": message},
+            status=status.HTTP_200_OK,
+        )
+

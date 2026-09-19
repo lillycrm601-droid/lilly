@@ -1,4 +1,4 @@
-# BottleCRM MCP Server — Design
+# LillyCRM MCP Server — Design
 
 **Date:** 2026-06-01
 **Status:** Approved design (pre-implementation)
@@ -6,7 +6,7 @@
 
 ## Goal
 
-Let users connect BottleCRM to their AI agents / LLMs (Claude Desktop, custom
+Let users connect LillyCRM to their AI agents / LLMs (Claude Desktop, custom
 agents, etc.) through a Model Context Protocol (MCP) server, with full CRUD +
 actions across the main CRM entities — without ever weakening the existing
 security model.
@@ -80,7 +80,7 @@ Agent / LLM
 | `last_used_at` | throttled write |
 | `created_at`, `revoked_at` | lifecycle |
 
-- Raw token format: `bcrm_pat_<random>`. Shown **once** at creation, never retrievable again.
+- Raw token format: `lcrm_pat_<random>`. Shown **once** at creation, never retrievable again.
 
 ### PAT resolution: middleware + `PATAuthentication` (DRF)
 
@@ -90,7 +90,7 @@ Agent / LLM
 > `request.org` too late — `RequireOrgContext` would already have returned 403.
 > So PAT resolution lives in **both** layers:
 >
-> - **`GetProfileAndOrg` middleware** detects a `bcrm_pat_` token (Bearer or
+> - **`GetProfileAndOrg` middleware** detects a `lcrm_pat_` token (Bearer or
 >   `Token:` header), resolves it via the shared `resolve_valid_pat()` helper,
 >   and sets `request.profile` / `request.org` / `request.META["org"]` (mirroring
 >   the existing org-key path, which is *also* in this middleware — that's why
@@ -100,7 +100,7 @@ Agent / LLM
 >   (`request._pat`) to set `request.user` for DRF's `IsAuthenticated`, and does
 >   the throttled `last_used_at` write (exactly once).
 
-- Reads `Authorization: Bearer bcrm_pat_…` (also accepts the existing `Token:` header style for parity).
+- Reads `Authorization: Bearer lcrm_pat_…` (also accepts the existing `Token:` header style for parity).
 - Hashes the presented token; looks up a non-revoked, non-expired row scoped to the **real user's** role instead of always-admin.
 - Any failure → denied (403 from `RequireOrgContext`, or 401 from DRF), logged **without** the token value. Never 200, never 500.
 
@@ -167,9 +167,9 @@ up automatically. Tool *code* stays entity-agnostic.
 
 ### Two entry points, one tool layer
 
-- **stdio** (`bcrm-mcp` console script via `uvx`/`pipx`): reads `BCRM_BASE_URL` +
-  `BCRM_TOKEN` from env. Drops into Claude Desktop's `mcpServers` config. **Ships first.**
-- **Streamable HTTP** (`bcrm-mcp --http`, hosted e.g. at `mcp.bottlecrm.io`): PAT
+- **stdio** (`lcrm-mcp` console script via `uvx`/`pipx`): reads `LCRM_BASE_URL` +
+  `LCRM_TOKEN` from env. Drops into Claude Desktop's `mcpServers` config. **Ships first.**
+- **Streamable HTTP** (`lcrm-mcp --http`, hosted e.g. at `mcp.lillycrm.io`): PAT
   travels in each request's `Authorization` header — server is **stateless and
   multi-tenant**, never stores a token. Phase 2 adds OAuth on top.
 
@@ -220,7 +220,7 @@ page and documented in `mcp_server/README.md`.
 
 1. **Phase 1 (MVP):** PAT model + auth + CRUD API; FastMCP server with the 6 generic
    tools + `crm_describe`; **stdio** transport; frontend token page; tests.
-2. **Phase 2:** Streamable HTTP transport hosted at `mcp.bottlecrm.io`; per-token
+2. **Phase 2:** Streamable HTTP transport hosted at `mcp.lillycrm.io`; per-token
    throttling + scopes; richer named actions via `crm_action`.
 3. **Phase 3:** OAuth 2.1 authorization-code flow for one-click "Connect" UX on the
    hosted endpoint; MCP resources/prompts for common workflows.

@@ -98,7 +98,7 @@
 </script>
 
 <svelte:head>
-  <title>Macros - Settings - BottleCRM</title>
+  <title>Macros - Settings - LillyCRM</title>
 </svelte:head>
 
 <PageHeader

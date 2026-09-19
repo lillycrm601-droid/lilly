@@ -89,7 +89,7 @@
 </script>
 
 <svelte:head>
-  <title>Profile - BottleCRM</title>
+  <title>Profile - LillyCRM</title>
 </svelte:head>
 
 <PageHeader title="Profile" subtitle="Manage your personal information">

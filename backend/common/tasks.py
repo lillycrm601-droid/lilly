@@ -1,7 +1,6 @@
 import logging
 from datetime import timedelta
 
-from botocore.exceptions import ClientError
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import EmailMessage
@@ -51,7 +50,7 @@ def send_welcome_email(user_id):
         return
 
     context = {"url": settings.FRONTEND_URL}
-    subject = "Welcome to BottleCRM"
+    subject = "Welcome to LillyCRM"
     html_content = render_to_string("welcome_email.html", context=context)
 
     msg = EmailMessage(
@@ -63,8 +62,8 @@ def send_welcome_email(user_id):
     msg.content_subtype = "html"
     try:
         msg.send()
-    except ClientError:
-        logger.exception("SES rejected welcome email for user %s", user_id)
+    except Exception:
+        logger.exception("Email backend rejected welcome email for user %s", user_id)
 
 
 @shared_task
@@ -93,14 +92,14 @@ def send_magic_link_email(token_id, raw_code=None):
                 token_id,
             )
             return
-        subject = f"Your BottleCRM sign-in code: {raw_code}"
+        subject = f"Your LillyCRM sign-in code: {raw_code}"
         html_content = render_to_string(
             "magic_link_code_email.html",
             {"code": raw_code},
         )
     else:
         magic_link_url = f"{settings.FRONTEND_URL}/login/verify?token={magic_token.token}"
-        subject = "Your BottleCRM sign-in link"
+        subject = "Your LillyCRM sign-in link"
         html_content = render_to_string(
             "magic_link_email.html",
             {"magic_link_url": magic_link_url},
@@ -115,8 +114,10 @@ def send_magic_link_email(token_id, raw_code=None):
     msg.content_subtype = "html"
     try:
         msg.send()
-    except ClientError:
-        logger.exception("SES rejected email for magic link token %s", token_id)
+    except Exception:
+        logger.exception(
+            "Email backend rejected email for magic link token %s", token_id
+        )
 
 
 @shared_task

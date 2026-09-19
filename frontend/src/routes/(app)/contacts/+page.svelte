@@ -758,7 +758,7 @@
 </script>
 
 <svelte:head>
-  <title>Contacts - BottleCRM</title>
+  <title>Contacts - LillyCRM</title>
 </svelte:head>
 
 <div class="flex flex-col">

@@ -54,7 +54,7 @@ enum NotificationType {
   }
 }
 
-/// Notification model for BottleCRM
+/// Notification model for LillyCRM
 class AppNotification {
   final String id;
   final String userId;

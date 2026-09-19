@@ -212,7 +212,7 @@
             </button>
 
             <!-- Task details -->
-            <div class="min-w-0 flex-1">
+            <div class="min-w-0 flex-1 transition-transform duration-200 group-hover:translate-x-0.5">
               <p
                 class="truncate text-sm font-medium text-[var(--text-primary)] transition-colors group-hover:text-[var(--color-primary-default)]
                   {task.status === 'Completed' ? 'text-[var(--text-tertiary)] line-through' : ''}"

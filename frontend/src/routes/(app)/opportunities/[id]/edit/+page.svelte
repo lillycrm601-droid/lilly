@@ -44,7 +44,7 @@
 </script>
 
 <svelte:head>
-  <title>{opp?.name ? `Edit ${opp.name}` : 'Edit opportunity'} - BottleCRM</title>
+  <title>{opp?.name ? `Edit ${opp.name}` : 'Edit opportunity'} - LillyCRM</title>
 </svelte:head>
 
 <PageHeader

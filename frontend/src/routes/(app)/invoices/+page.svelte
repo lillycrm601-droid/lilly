@@ -299,7 +299,7 @@
 </script>
 
 <svelte:head>
-  <title>Invoices | BottleCRM</title>
+  <title>Invoices | LillyCRM</title>
 </svelte:head>
 
 <!-- Page Content -->

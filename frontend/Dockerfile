@@ -7,7 +7,8 @@ WORKDIR /app
 
 # Install dependencies (layer cached)
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile || pnpm install
+RUN printf 'allowBuilds:\n  "@sentry/cli": true\n  esbuild: true\n' > pnpm-workspace.yaml && \
+    pnpm install --frozen-lockfile || pnpm install
 
 EXPOSE 5173
 

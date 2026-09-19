@@ -4,10 +4,10 @@ Mirror of `wsgi.py` for ASGI servers (uvicorn, hypercorn, daphne). Required
 for the in-app notifications SSE stream — async views serving long-lived
 connections will hold a worker hostage when run under WSGI.
 
-It also optionally mounts the BottleCRM **MCP server** at ``/mcp`` so AI agents
+It also optionally mounts the LillyCRM **MCP server** at ``/mcp`` so AI agents
 can connect over HTTP with no local install (each request authenticates with
 its own ``Authorization: Bearer <pat>`` header). The mount is best-effort: if
-the optional ``bcrm-mcp`` dependency is not installed, or ``BCRM_MCP_ENABLED``
+the optional ``lcrm-mcp`` dependency is not installed, or ``LCRM_MCP_ENABLED``
 is false, this module serves Django alone — exactly as before.
 
 Production deploy must run an ASGI server pointing at this module:
@@ -33,7 +33,7 @@ django_application = get_asgi_application()
 
 
 def _mcp_disabled():
-    return os.environ.get("BCRM_MCP_ENABLED", "true").strip().lower() in (
+    return os.environ.get("LCRM_MCP_ENABLED", "true").strip().lower() in (
         "0",
         "false",
         "no",
@@ -51,8 +51,8 @@ def _build_application():
         return django_application
 
     try:
-        from bcrm_mcp.auth import extract_bearer_token
-        from bcrm_mcp.server import build_http_app
+        from lcrm_mcp.auth import extract_bearer_token
+        from lcrm_mcp.server import build_http_app
     except ImportError:
         # Optional `mcp` extra not installed — serve Django only.
         return django_application
@@ -60,7 +60,7 @@ def _build_application():
     # The CRM REST root the MCP tools call. Mounted in-process, so this is a
     # loopback to this very server; override via env for a different internal
     # address.
-    base_url = os.environ.get("BCRM_BASE_URL", "http://127.0.0.1:8000")
+    base_url = os.environ.get("LCRM_BASE_URL", "http://127.0.0.1:8000")
 
     # MCP streamable endpoint lives at exactly "/mcp". We dispatch by prefix
     # ourselves rather than using Starlette's Mount, which (in the vendored
@@ -108,7 +108,7 @@ async def _unauthorized(scope, send):
         return
     body = (
         b'{"error":"unauthorized","detail":"Missing or malformed Authorization '
-        b'header. Send: Authorization: Bearer <bcrm_pat_...>"}'
+        b'header. Send: Authorization: Bearer <lcrm_pat_...>"}'
     )
     await send(
         {

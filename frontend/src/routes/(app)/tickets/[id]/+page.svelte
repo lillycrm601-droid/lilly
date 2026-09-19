@@ -83,7 +83,7 @@
 </script>
 
 <svelte:head>
-  <title>{c.subject} - Ticket - BottleCRM</title>
+  <title>{c.subject} - Ticket - LillyCRM</title>
 </svelte:head>
 
 <div class="flex flex-col gap-4 p-4">

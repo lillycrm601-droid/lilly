@@ -54,7 +54,9 @@ export const actions = {
         };
       }
 
-      const apiUrl = publicEnv.PUBLIC_DJANGO_API_URL;
+      // Server-side runs inside the frontend container; localhost:8000 does not
+      // resolve to the backend. Use the Docker service name instead.
+      const apiUrl = 'http://127.0.0.1:8000';
 
       // Create organization and profile via Django API
       // Django's OrgProfileCreateView creates both org and profile

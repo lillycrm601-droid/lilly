@@ -26,7 +26,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyDsA2wgQIw-bVgwODNMIF482gVRn5xdANU',
     appId: '1:1072513761792:android:c170ae72445200ecd74ee5',
     messagingSenderId: '1072513761792',
-    projectId: 'bottlecrm-io',
-    storageBucket: 'bottlecrm-io.firebasestorage.app',
+    projectId: 'lillycrm-io',
+    storageBucket: 'lillycrm-io.firebasestorage.app',
   );
 }

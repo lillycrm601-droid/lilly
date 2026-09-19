@@ -22,12 +22,12 @@
 </script>
 
 <svelte:head>
-  <title>Support - BottleCRM</title>
+  <title>Support - LillyCRM</title>
 </svelte:head>
 
 <PageHeader
   title="Help & Support"
-  subtitle="Join thousands of businesses using BottleCRM to manage customer relationships without the enterprise price tag."
+  subtitle="Join thousands of businesses using LillyCRM to manage customer relationships without the enterprise price tag."
   size="display"
 />
 
@@ -41,7 +41,7 @@
       <div class="mission-content">
         <h2>Our Mission</h2>
         <p>
-          BottleCRM addresses the high subscription costs of commercial CRM alternatives by
+          LillyCRM addresses the high subscription costs of commercial CRM alternatives by
           providing a
           <strong>completely free, open-source, and highly customizable</strong> solution. Clone it, self-host
           it, and make it yours — forever free.
@@ -114,7 +114,7 @@
           </div>
         </div>
         <h3>Feature Requests</h3>
-        <p>Have an idea? Share your requests and help shape the future of BottleCRM.</p>
+        <p>Have an idea? Share your requests and help shape the future of LillyCRM.</p>
         <Button
           variant="outline"
           class="card-action-outline"
@@ -173,7 +173,7 @@
           class="card-action-security"
           onclick={() =>
             (window.location.href =
-              'mailto:ashwin@micropyramid.com?subject=Security%20Issue%20-%20BottleCRM')}
+              'mailto:ashwin@micropyramid.com?subject=Security%20Issue%20-%20LillyCRM')}
         >
           <Shield class="h-4 w-4" />
           Report Privately
@@ -211,7 +211,7 @@
 
     <!-- Version -->
     <footer class="version-footer">
-      <span>BottleCRM</span>
+      <span>LillyCRM</span>
       <span class="version-divider">•</span>
       <span>v1.0.0</span>
     </footer>

@@ -140,7 +140,7 @@
 </script>
 
 <svelte:head>
-  <title>Routing Rules - Settings - BottleCRM</title>
+  <title>Routing Rules - Settings - LillyCRM</title>
 </svelte:head>
 
 <PageHeader

@@ -108,7 +108,7 @@
 </script>
 
 <svelte:head>
-  <title>Custom Fields - Settings - BottleCRM</title>
+  <title>Custom Fields - Settings - LillyCRM</title>
 </svelte:head>
 
 <PageHeader

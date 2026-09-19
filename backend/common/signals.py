@@ -79,6 +79,10 @@ def account_post_delete(sender, instance, **kwargs):
 def lead_post_save(sender, instance, created, **kwargs):
     action = "CREATE" if created else "UPDATE"
     create_activity(instance, action, "Lead")
+    if created and instance.phone:
+        from leads.tasks import trigger_bolna_call
+        trigger_bolna_call.delay(instance.id, str(instance.org.id))
+
 
 
 @receiver(post_delete, sender="leads.Lead")

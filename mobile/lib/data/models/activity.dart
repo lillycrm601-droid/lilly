@@ -57,7 +57,7 @@ enum ActivityType {
   }
 }
 
-/// Activity model for BottleCRM
+/// Activity model for LillyCRM
 class Activity {
   final String id;
   final ActivityType type;

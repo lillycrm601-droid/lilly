@@ -1106,7 +1106,7 @@
 </script>
 
 <svelte:head>
-  <title>Tasks - BottleCRM</title>
+  <title>Tasks - LillyCRM</title>
 </svelte:head>
 
 <div class="flex flex-col">

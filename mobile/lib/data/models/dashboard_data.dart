@@ -1,4 +1,4 @@
-// Dashboard data models for BottleCRM
+// Dashboard data models for LillyCRM
 import 'package:flutter/foundation.dart';
 
 /// Urgent counts from dashboard API

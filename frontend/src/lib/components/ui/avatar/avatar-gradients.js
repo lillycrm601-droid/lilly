@@ -1,14 +1,14 @@
 export const AVATAR_GRADIENTS = [
-  'linear-gradient(135deg, #a78bfa, #7c3aed)', // 0 purple
-  'linear-gradient(135deg, #f472b6, #db2777)', // 1 pink
-  'linear-gradient(135deg, #34d399, #059669)', // 2 green
-  'linear-gradient(135deg, #60a5fa, #2563eb)', // 3 blue
-  'linear-gradient(135deg, #fbbf24, #ef4444)', // 4 orange-red
-  'linear-gradient(135deg, #67e8f9, #0891b2)', // 5 cyan
-  'linear-gradient(135deg, #fcd34d, #d97706)'  // 6 amber
+  'linear-gradient(135deg, #00f0ff, #0072ff)', // Cyber Cyan to Neon Blue
+  'linear-gradient(135deg, #ff007f, #7f00ff)', // Hot Pink to Bright Violet
+  'linear-gradient(135deg, #ffff00, #ff5500)', // Neon Yellow to Neon Orange
+  'linear-gradient(135deg, #39ff14, #008080)', // Lime Green to Teal
+  'linear-gradient(135deg, #0070f3, #ff007f)', // Electric Blue to Magenta
+  'linear-gradient(135deg, #00ff66, #00f0ff)', // Neon Green to Cyber Cyan
+  'linear-gradient(135deg, #8b5cf6, #ff007f)'  // Electric Purple to Hot Pink
 ];
 
-export const WORKSPACE_GRADIENT = 'linear-gradient(135deg, #ea580c, #c2410c)';
+export const WORKSPACE_GRADIENT = 'linear-gradient(135deg, #00f0ff, #ff007f)';
 
 // Stable string hash → bucket [0,6]. djb2-ish; only needs to be deterministic & well-spread.
 export function gradientFor(seed) {

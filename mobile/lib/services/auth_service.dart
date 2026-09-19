@@ -8,7 +8,7 @@ import '../data/models/auth_response.dart';
 import 'api_service.dart';
 import 'crash_reporting.dart';
 
-/// Authentication service for BottleCRM
+/// Authentication service for LillyCRM
 ///
 /// Handles Google Sign-In using ID token flow (same as old app),
 /// token storage, and authentication state management.
