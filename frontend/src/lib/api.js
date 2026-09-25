@@ -13,10 +13,11 @@ import { goto } from '$app/navigation';
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // API Base URL from environment variables
-// Note: VITE_ prefix is required for client-side env vars
 const API_BASE_URL = env.PUBLIC_DJANGO_API_URL
   ? `${env.PUBLIC_DJANGO_API_URL}/api`
-  : 'http://localhost:8000/api';
+  : (typeof window !== 'undefined' && window.location.hostname.includes('vercel.app')
+      ? 'https://lilly-backend-bd1u.onrender.com/api'
+      : 'http://localhost:8000/api');
 
 /**
  * Storage keys for tokens and org

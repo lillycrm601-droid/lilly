@@ -26,9 +26,9 @@ import * as Sentry from '@sentry/sveltekit';
 
 import { redirect } from '@sveltejs/kit';
 import axios from 'axios';
-// Server-side hooks run inside the frontend container, where localhost:8000
-// does not resolve to the backend. Use the Docker service name instead.
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+import { env as publicEnv } from '$env/dynamic/public';
+
+const API_BASE_URL = `${publicEnv.PUBLIC_DJANGO_API_URL || 'http://127.0.0.1:8000'}/api`;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**

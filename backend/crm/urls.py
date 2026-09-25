@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth import views
 from django.urls import include, path
 from django.urls import re_path as url
-from django.views.generic import TemplateView
+from django.views.generic import RedirectView, TemplateView
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -13,6 +13,7 @@ from drf_spectacular.views import (
 app_name = "crm"
 
 urlpatterns = [
+    path("", RedirectView.as_view(url="/swagger-ui/", permanent=False)),
     url(
         r"^healthz/$",
         TemplateView.as_view(template_name="healthz.html"),

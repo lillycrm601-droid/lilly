@@ -160,6 +160,8 @@ class RequireOrgContext:
 
     def _is_exempt(self, path):
         """Check if path is exempt from org context requirement."""
+        if path in ("/", "/healthz", "/healthz/"):
+            return True
         return any(path.startswith(exempt) for exempt in self.EXEMPT_PATHS)
 
     def _set_org_context(self, request):

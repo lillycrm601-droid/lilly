@@ -29,9 +29,7 @@ export async function load({ cookies, locals }) {
       return { orgs: [] };
     }
 
-    // Server-side runs inside the frontend container; localhost:8000 does not
-    // resolve to the backend. Use the Docker service name instead.
-    const apiUrl = 'http://127.0.0.1:8000';
+    const apiUrl = publicEnv.PUBLIC_DJANGO_API_URL || 'http://127.0.0.1:8000';
 
     // Fetch current user with organization memberships
     // The /api/auth/me/ endpoint returns user data with organizations array
@@ -78,9 +76,7 @@ export const actions = {
       throw redirect(307, '/login');
     }
 
-    // Server-side runs inside the frontend container; localhost:8000 does not
-    // resolve to the backend. Use the Docker service name instead.
-    const apiUrl = 'http://127.0.0.1:8000';
+    const apiUrl = publicEnv.PUBLIC_DJANGO_API_URL || 'http://127.0.0.1:8000';
 
     try {
       // Call switch-org endpoint to get new tokens with org context
