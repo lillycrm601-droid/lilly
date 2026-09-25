@@ -56,20 +56,32 @@
       <h1 class="login-title">Sign in to your account</h1>
 
       <!-- Google Sign In -->
-      <a
-        href={data['google_url']}
-        onclick={handleGoogleLogin}
-        class="google-btn"
-        class:loading={isLoading}
-      >
-        {#if isLoading}
-          <span class="spinner"></span>
-          <span>Redirecting...</span>
-        {:else}
+      {#if data['google_url']}
+        <a
+          href={data['google_url']}
+          onclick={handleGoogleLogin}
+          class="google-btn"
+          class:loading={isLoading}
+        >
+          {#if isLoading}
+            <span class="spinner"></span>
+            <span>Redirecting...</span>
+          {:else}
+            <img src={imgGoogle} alt="" class="google-icon" />
+            <span>Continue with Google</span>
+          {/if}
+        </a>
+      {:else}
+        <button
+          type="button"
+          class="google-btn disabled"
+          title="Google Sign-In is not configured yet"
+          onclick={() => alert('Google Sign-In is not configured yet. Please set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env')}
+        >
           <img src={imgGoogle} alt="" class="google-icon" />
           <span>Continue with Google</span>
-        {/if}
-      </a>
+        </button>
+      {/if}
 
       <!-- Divider -->
       <div class="divider">
@@ -216,6 +228,11 @@
   .google-btn.loading {
     pointer-events: none;
     opacity: 0.85;
+  }
+
+  .google-btn.disabled {
+    opacity: 0.75;
+    cursor: pointer;
   }
 
   .google-icon {

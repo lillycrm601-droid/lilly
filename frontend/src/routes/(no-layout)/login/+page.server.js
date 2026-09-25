@@ -104,7 +104,7 @@ async function handleOAuthCallback(code, returnedState, cookies) {
   try {
     // Exchange code for tokens via Django backend
     // The backend handles the actual token exchange with Google using the client secret
-    const apiUrl = "http://127.0.0.1:8000";
+    const apiUrl = publicEnv.PUBLIC_DJANGO_API_URL || "http://127.0.0.1:8000";
     console.log('Using API URL:', apiUrl);
     const response = await axios.post(
       `${apiUrl}/api/auth/google/callback/`,
@@ -153,6 +153,11 @@ async function handleOAuthCallback(code, returnedState, cookies) {
  * @returns {Promise<object>} Object containing the Google OAuth URL
  */
 async function generateOAuthUrl(cookies) {
+  // If Google OAuth is not configured, don't generate a broken URL
+  if (!env.GOOGLE_CLIENT_ID) {
+    return { google_url: null };
+  }
+
   // Generate PKCE parameters
   const codeVerifier = generateCodeVerifier();
   const codeChallenge = await generateCodeChallenge(codeVerifier);
@@ -198,7 +203,7 @@ export const actions = {
     }
 
     try {
-      const apiUrl = "http://127.0.0.1:8000";
+      const apiUrl = publicEnv.PUBLIC_DJANGO_API_URL || "http://127.0.0.1:8000";
       await axios.post(
         `${apiUrl}/api/auth/magic-link/request/`,
         { email },
@@ -206,7 +211,8 @@ export const actions = {
       );
       return { success: true };
     } catch (error) {
-      // Always show success to user (backend also returns 200 always)
+      console.error('Magic link request error:', error?.message, error?.response?.data);
+      // Always show success to user to prevent email enumeration
       return { success: true };
     }
   }

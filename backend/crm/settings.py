@@ -148,11 +148,13 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 EMAIL_TIMEOUT = int(os.environ.get("EMAIL_TIMEOUT", "15"))
 
-# Transactional email via HTTP API (works on Render free tier).
-# Used automatically when EMAIL_BACKEND=anymail.backends.brevo.EmailBackend.
-# Get BREVO_API_KEY at Brevo → Settings → SMTP & API → API Keys (NOT the SMTP key).
+# Transactional email via HTTP API (works on Render free tier / serverless).
+# Used automatically when EMAIL_BACKEND is:
+# - "anymail.backends.resend.EmailBackend" for Resend (RESEND_API_KEY)
+# - "anymail.backends.brevo.EmailBackend" for Brevo (BREVO_API_KEY)
 ANYMAIL = {
     "BREVO_API_KEY": os.environ.get("BREVO_API_KEY", ""),
+    "RESEND_API_KEY": os.environ.get("RESEND_API_KEY", ""),
 }
 
 AUTH_USER_MODEL = "common.User"

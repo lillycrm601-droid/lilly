@@ -40,17 +40,24 @@ services:
         value: .onrender.com
       - key: CORS_ALLOW_ALL
         value: "True" # tighten to False + CORS_ALLOWED_ORIGINS after frontend URL is known
-      # ---- Brevo HTTP API (300 emails/day; SMTP ports are blocked on Render) ----
+      # ---- Email delivery via HTTP API (Resend or Brevo; SMTP is blocked on Render) ----
       - key: EMAIL_BACKEND
-        value: anymail.backends.brevo.EmailBackend
-      - key: BREVO_API_KEY
-        sync: false # Brevo → Settings → SMTP & API → API Keys (xkeysib-..., NOT the SMTP key)
+        value: anymail.backends.resend.EmailBackend
+      - key: RESEND_API_KEY
+        sync: false # Resend API Key (starts with re_...)
       - key: DEFAULT_FROM_EMAIL
-        sync: false # must be a Brevo-verified sender
+        sync: false # e.g. onboarding@resend.dev or verified domain e.g. noreply@yourdomain.com
       - key: ADMIN_EMAIL
         value: admin@localhost
       - key: ADMIN_PASSWORD
         generateValue: true # change after first login (check deploy logs for the value)
+      # ---- Google OAuth ----
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        sync: false # e.g. https://your-frontend.vercel.app/login
       # ---- fill in after first deploy (Dashboard → service → Environment) ----
       - key: DOMAIN_NAME
         sync: false
@@ -96,10 +103,10 @@ services:
         value: "5432"
       - key: DBSSLMODE
         value: require
-      # ---- same Brevo values as backend ----
+      # ---- same Email values as backend ----
       - key: EMAIL_BACKEND
-        value: anymail.backends.brevo.EmailBackend
-      - key: BREVO_API_KEY
+        value: anymail.backends.resend.EmailBackend
+      - key: RESEND_API_KEY
         sync: false # same API key as backend
       - key: DEFAULT_FROM_EMAIL
         sync: false
