@@ -34,6 +34,7 @@ class GetProfileAndOrg:
             "/api/auth/switch-org/",
             "/api/auth/magic-link/request/",
             "/api/auth/magic-link/verify/",
+            "/api/auth/dev-login/",
         ]
         if request.path in auth_skip_paths:
             return

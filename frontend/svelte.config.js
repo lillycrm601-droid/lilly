@@ -1,23 +1,29 @@
-import adapter from '@sveltejs/adapter-vercel';
+import adapterNode from '@sveltejs/adapter-node';
+import adapterVercel from '@sveltejs/adapter-vercel';
 
-const config = { vitePlugin: {
-  prebundleSvelteLibraries: false
-}, kit: {
-  adapter: adapter(),
+const isVercel = process.env.VERCEL || process.env.ADAPTER === 'vercel';
 
-  version: {
-    pollInterval: 60000
+const config = {
+  vitePlugin: {
+    prebundleSvelteLibraries: false
   },
+  kit: {
+    adapter: isVercel ? adapterVercel() : adapterNode(),
 
-  experimental: {
-    tracing: {
-      server: true
+    version: {
+      pollInterval: 60000
     },
 
-    instrumentation: {
-      server: true
+    experimental: {
+      tracing: {
+        server: true
+      },
+
+      instrumentation: {
+        server: true
+      }
     }
   }
-} };
+};
 
 export default config;

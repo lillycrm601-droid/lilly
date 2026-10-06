@@ -796,3 +796,32 @@ class MagicLinkVerifyCodeView(APIView):
                 "name": default_org.name,
             }
         return Response(response_data, status=status.HTTP_200_OK)
+
+
+class DevLoginView(APIView):
+    """Local development quick login helper. Only available when DEBUG is True."""
+    permission_classes = []
+    authentication_classes = []
+
+    def get(self, request):
+        from django.conf import settings
+        from common.models import Org, Profile
+
+        if not settings.DEBUG:
+            return Response({"error": "Forbidden"}, status=status.HTTP_403_FORBIDDEN)
+
+        user = User.objects.filter(email="admin@example.com").first()
+        if not user:
+            user = User.objects.filter(is_active=True).first()
+
+        profile = Profile.objects.filter(user=user, is_active=True).first()
+        org = profile.org if profile else Org.objects.first()
+        token = OrgAwareRefreshToken.for_user_and_org(user, org, profile)
+
+        return Response({
+            "access_token": str(token.access_token),
+            "refresh_token": str(token),
+            "org_id": str(org.id) if org else "",
+            "org_name": org.name if org else "",
+        })
+

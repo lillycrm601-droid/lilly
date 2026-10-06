@@ -6,6 +6,8 @@
   import { Separator } from '$lib/components/ui/separator/index.js';
   import { cn } from '$lib/utils.js';
   import CrmPropertyRow from './CrmPropertyRow.svelte';
+  import { onMount } from 'svelte';
+  import { isCopilotOpen, isCopilotExpanded, closeCopilot } from '$lib/stores/ai-copilot.js';
 
   /**
    * @type {{
@@ -114,14 +116,55 @@
       return true;
     })
   );
+
+  let isLargeScreen = $state(typeof window !== 'undefined' ? window.innerWidth >= 1280 : true);
+
+  onMount(() => {
+    const checkWidth = () => {
+      isLargeScreen = window.innerWidth >= 1280;
+    };
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+    return () => window.removeEventListener('resize', checkWidth);
+  });
+
+  // When drawer opens on smaller screens where side-by-side is not possible (<1280px),
+  // automatically close Copilot so they never overlap on top of each other!
+  $effect(() => {
+    if (open && !isLargeScreen && $isCopilotOpen) {
+      closeCopilot();
+    }
+  });
+
+  const drawerRightOffset = $derived(
+    open && $isCopilotOpen && isLargeScreen
+      ? $isCopilotExpanded
+        ? '720px'
+        : '460px'
+      : '0px'
+  );
+
+  const drawerStyle = $derived(
+    drawerRightOffset !== '0px'
+      ? `right: ${drawerRightOffset} !important; inset-inline-end: ${drawerRightOffset} !important;`
+      : ''
+  );
+
+  const overlayStyle = $derived(
+    drawerRightOffset !== '0px'
+      ? `right: ${drawerRightOffset} !important; inset-inline-end: ${drawerRightOffset} !important;`
+      : ''
+  );
 </script>
 
 <Sheet.Root bind:open onOpenChange={(value) => onOpenChange?.(value)}>
   <Sheet.Content
     side="right"
     aria-labelledby={titleId}
+    style={drawerStyle}
+    {overlayStyle}
     class={cn(
-      'border-border/50 bg-background/95 w-[480px] overflow-hidden border-l p-0 backdrop-blur-xl sm:max-w-[480px]',
+      'border-border/50 bg-background/95 w-[480px] overflow-hidden border-l p-0 backdrop-blur-xl sm:max-w-[480px] transition-[right,inset-inline-end,transform] duration-300 ease-in-out',
       className
     )}
   >

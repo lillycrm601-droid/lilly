@@ -1,6 +1,7 @@
 <script>
   import '../../../app.css';
   import { enhance } from '$app/forms';
+  import { dev } from '$app/environment';
 
   import imgGoogle from '$lib/assets/images/google.svg';
   import imgLogo from '$lib/assets/images/logo.png';
@@ -118,6 +119,17 @@
         {#if magicLinkError}
           <p class="magic-link-error">{magicLinkError}</p>
         {/if}
+      {/if}
+
+      {#if dev}
+        <div class="dev-login-box">
+          <div class="divider">
+            <span class="divider-text">Local Development</span>
+          </div>
+          <a href="/dev-login" class="dev-login-btn">
+            <span>🚀 Quick Dev Login (Admin)</span>
+          </a>
+        </div>
       {/if}
     </div>
 
@@ -484,5 +496,29 @@
 
   :global(.dark) .dot {
     background: #404040;
+  }
+
+  .dev-login-box {
+    margin-top: 1.25rem;
+    padding-top: 0.5rem;
+  }
+
+  .dev-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    background: #059669;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+  }
+
+  .dev-login-btn:hover {
+    background: #047857;
   }
 </style>

@@ -5,10 +5,9 @@
  * Used by SvelteKit server files during migration from Prisma to API.
  */
 
-// This helper is only used in SvelteKit server files, which run inside the
-// frontend container. localhost:8000 does not resolve to the backend there,
-// so use the Docker service name instead.
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+import { env as publicEnv } from '$env/dynamic/public';
+
+const API_BASE_URL = `${publicEnv.PUBLIC_DJANGO_API_URL || 'http://127.0.0.1:8000'}/api`;
 
 /**
  * @typedef {import('@sveltejs/kit').Cookies} Cookies

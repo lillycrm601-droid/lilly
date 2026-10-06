@@ -29,6 +29,8 @@
    *   class?: string,
    *   side?: 'top' | 'bottom' | 'left' | 'right',
    *   portalProps?: Record<string, any>,
+   *   overlayClass?: string,
+   *   overlayStyle?: string,
    *   children?: import('svelte').Snippet,
    *   [key: string]: any
    * }}
@@ -38,13 +40,15 @@
     class: className,
     side = 'right',
     portalProps = {},
+    overlayClass = '',
+    overlayStyle = '',
     children,
     ...restProps
   } = $props();
 </script>
 
 <SheetPrimitive.Portal {...portalProps}>
-  <SheetOverlay />
+  <SheetOverlay class={overlayClass} style={overlayStyle} />
   <SheetPrimitive.Content
     bind:ref
     data-slot="sheet-content"

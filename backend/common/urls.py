@@ -9,6 +9,7 @@ from common.views.auth_views import (
     MeView,
     OrgAwareTokenRefreshView,
     OrgSwitchView,
+    DevLoginView,
 )
 from common.views.custom_field_views import (
     CustomFieldDefinitionDetailView,
@@ -58,6 +59,7 @@ urlpatterns = [
     path("auth/me/", MeView.as_view(), name="me"),
     path("auth/profile/", ProfileDetailView.as_view(), name="profile_detail"),
     path("auth/switch-org/", OrgSwitchView.as_view(), name="switch_org"),
+    path("auth/dev-login/", DevLoginView.as_view(), name="dev_login"),
     # Google OAuth callback with PKCE (secure implementation)
     path("auth/google/callback/", GoogleOAuthCallbackView.as_view()),
     # Google ID token auth for mobile apps

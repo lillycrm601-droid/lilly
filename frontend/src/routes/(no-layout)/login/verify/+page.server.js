@@ -52,7 +52,30 @@ export async function load({ url, cookies }) {
       secure,
       maxAge: 60 * 60 * 24 * 365 // 1 year
     });
+    // If token already has an org bound to it, set org cookie and redirect to app
+    try {
+      const parts = access_token.split('.');
+      if (parts.length === 3) {
+        const payload = JSON.parse(
+          Buffer.from(parts[1].replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8')
+        );
+        if (payload.org_id) {
+          cookies.set('org', payload.org_id, {
+            path: '/',
+            httpOnly: false,
+            sameSite: 'lax',
+            secure,
+            maxAge: 60 * 60 * 24 * 365
+          });
+          const next = url.searchParams.get('next') || '/';
+          throw redirect(303, next);
+        }
+      }
+    } catch (e) {
+      if (e.status === 303 || e.status === 307) throw e;
+    }
   } catch (error) {
+    if (error.status === 303 || error.status === 307) throw error;
     const errorMessage = error.response?.data?.error || 'Verification failed';
     return { error: errorMessage };
   }
@@ -60,3 +83,4 @@ export async function load({ url, cookies }) {
   // Success - redirect to org selection (same as Google OAuth)
   throw redirect(307, '/org');
 }
+
